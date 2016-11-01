@@ -13,4 +13,4 @@ tokens = word_tokenize(corpus)
 filtered_words = [word for word in tokens if word not in stopwords.words('english')]
 #print(tokens)
 fdist = FreqDist(filtered_words)
-print(fdist.most_common(100))
+print(fdist.most_common(200))
