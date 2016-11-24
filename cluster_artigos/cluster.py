@@ -11,9 +11,6 @@ import json
 
 
 
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 # here I define a tokenizer and stemmer which returns the set of stems in the text that it is passed
 
@@ -272,45 +269,45 @@ plt.show() #show the plot
 
 
 #strip any proper names from a text...unfortunately right now this is yanking the first word from a sentence too.
-import string
-def strip_proppers(text):
-    # first tokenize by sentence, then by word to ensure that punctuation is caught as it's own token
-    tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent) if word.islower()]
-    return "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in tokens]).strip()
+# import string
+# def strip_proppers(text):
+#     # first tokenize by sentence, then by word to ensure that punctuation is caught as it's own token
+#     tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent) if word.islower()]
+#     return "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in tokens]).strip()
 
-#strip any proper nouns (NNP) or plural proper nouns (NNPS) from a text
-from nltk.tag import pos_tag
+# #strip any proper nouns (NNP) or plural proper nouns (NNPS) from a text
+# from nltk.tag import pos_tag
 
-def strip_proppers_POS(text):
-    tagged = pos_tag(text.split()) #use NLTK's part of speech tagger
-    non_propernouns = [word for word,pos in tagged if pos != 'NNP' and pos != 'NNPS']
-    return non_propernouns
+# def strip_proppers_POS(text):
+#     tagged = pos_tag(text.split()) #use NLTK's part of speech tagger
+#     non_propernouns = [word for word,pos in tagged if pos != 'NNP' and pos != 'NNPS']
+#     return non_propernouns
 
-from gensim import corpora, models, similarities 
+# from gensim import corpora, models, similarities 
 
-#remove proper names
-preprocess = [strip_proppers(doc) for doc in synopses]
+# #remove proper names
+# preprocess = [strip_proppers(doc) for doc in synopses]
 
-#tokenize
-tokenized_text = [tokenize_and_stem(text) for text in preprocess]
+# #tokenize
+# tokenized_text = [tokenize_and_stem(text) for text in preprocess]
 
-#remove stop words
-texts = [[word for word in text if word not in stopwords] for text in tokenized_text]
+# #remove stop words
+# texts = [[word for word in text if word not in stopwords] for text in tokenized_text]
 
-#create a Gensim dictionary from the texts
-dictionary = corpora.Dictionary(texts)
+# #create a Gensim dictionary from the texts
+# dictionary = corpora.Dictionary(texts)
 
-#remove extremes (similar to the min/max df step used when creating the tf-idf matrix)
-dictionary.filter_extremes(no_below=1, no_above=0.8)
+# #remove extremes (similar to the min/max df step used when creating the tf-idf matrix)
+# dictionary.filter_extremes(no_below=1, no_above=0.8)
 
-#convert the dictionary to a bag of words corpus for reference
-corpus = [dictionary.doc2bow(text) for text in texts]
+# #convert the dictionary to a bag of words corpus for reference
+# corpus = [dictionary.doc2bow(text) for text in texts]
 
-lda = models.LdaModel(corpus, num_topics=5, 
-                            id2word=dictionary, 
-                            update_every=5, 
-                            chunksize=10000, 
-                            passes=100)
+# lda = models.LdaModel(corpus, num_topics=5, 
+#                             id2word=dictionary, 
+#                             update_every=5, 
+#                             chunksize=10000, 
+#                             passes=100)
 
 
-lda.show_topics()
+# lda.show_topics()
