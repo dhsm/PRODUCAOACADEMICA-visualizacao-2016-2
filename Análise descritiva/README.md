@@ -234,7 +234,7 @@ Nenhuma diferença gritante entre os anos
 ![png](output_9_1.png)
 
 
-## Trabalhos selecionados para conferência
+## Trabalhos selecionados para conferências
 726 trabalhos foram apresentados em eventos
 
 
