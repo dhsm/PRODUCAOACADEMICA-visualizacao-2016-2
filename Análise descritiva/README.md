@@ -234,7 +234,7 @@ Nenhuma diferença gritante entre os anos
 ![png](output_9_1.png)
 
 
-## Trabalhos que ganharam prêmios
+## Trabalhos selecionados para conferência
 726 trabalhos foram apresentados em eventos
 
 
