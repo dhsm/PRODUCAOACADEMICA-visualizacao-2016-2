@@ -51,13 +51,13 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 				people.push(data[i].authors[j].name.toLowerCase());
 
 				if(data[i].authors[j].category=="Discente"){
-					peopleType.push(0)
+					peopleType.push(0) //Azul escuro
 				}else if(data[i].authors[j].category=="Docente"){
-					peopleType.push(1)
+					peopleType.push(1) //Azul claro
 				}else if(data[i].authors[j].category=="Participante Externo"){
-					peopleType.push(2)
+					peopleType.push(2) //Laranja
 				}else{
-					peopleType.push(3)
+					peopleType.push(3) //rosinha claro
 				}
 			}
 		}
