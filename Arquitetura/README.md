@@ -2,15 +2,6 @@
 
 ![alt tag](Preview-01.png)
 
-
-## Conteúdo
-1. [Vistas](#vistas)
-2. [Tecnologias](#Tecnologias)
-3. [Especificações sobre cada vista](#especificações sobre cada vista)
-    1. [Relacionamento Professor x Professor](#relacionamento Professor x Professor)
-    2. [Conexões entre autores (grafo)](#Conexões entre autores (grafo)
-    3. [Trabalhos acadêmicos (metadados)](Trabalhos acadêmicos (metadados)
-
 ## Vistas
 * Relacionamento Professor x Professores
 * Conexões entre autores (grafo)
