@@ -2,16 +2,26 @@
 
 ![alt tag](Preview-01.png)
 
+
+## Conteúdo
+1. [Vistas](#vistas)
+2. [Tecnologias](#Tecnologias)
+3. [Especificações sobre cada vista](#especificações sobre cada vista)
+    1. [Relacionamento Professor x Professor](#relacionamento Professor x Professor)
+    2. [Conexões entre autores (grafo)](#Conexões entre autores (grafo)
+    3. [Trabalhos acadêmicos (metadados)](Trabalhos acadêmicos (metadados)
+
 ## Vistas
 * Relacionamento Professor x Professores
 * Conexões entre autores (grafo)
-* Detalhes sobre os trabalhos acadêmicos (metadados)
+* Trabalhos acadêmicos (metadados)
 
 ## Tecnologias
 * D3.js
 
-## Especificações de cada vista
+## Especificações sobre cada vista
 ### Relacionamento Professor x Professor
+![alt tag](edges.png)
 #### Dados
 Cada trabalho apresenta os seguintes campos:
 
@@ -26,7 +36,7 @@ Cada trabalho apresenta os seguintes campos:
 | researchProject | String     |    Projeto de pesquisa onde o trabalho foi desenvolvido |
 | year | String     |    Ano em que o trabalho foi desenvolvido |
 
-Este vista utiliza os dados do campo authors e mostra apenas a colaboração entre docentes (professores).
+Este vista utiliza os dados do campo *authors* e mostra apenas a colaboração entre docentes (professores).
 
 
 Primeiro todos os autores do dataset são armazenados na variável people[] e classificados de acordo com o papel deles no trabalho (docente, discente, participante externo ou outros).
@@ -35,3 +45,13 @@ Primeiro todos os autores do dataset são armazenados na variável people[] e cl
 Em seguida é criada uma matriz com todas as relações entre os autores do dataset, cujo valor é a quantidade de vezes que os dois autores trabalharam juntos (ou seja, a quantidade de trabalhos onde ambos os autores estão presentes).
 
 Por fim as conexões são apresentadas utilizando D3.
+
+### Conexões entre autores (grafo)
+![alt tag](graph.png)
+#### Dados
+Esta vista também utililza apenas os dados do campo *authors*. A dinâmica é a mesma, só que agora utilizamos todos os tipos de autores (docentes, discentes, colaboradores externos e outros).
+
+### Trabalhos acadêmicos (metadados)
+#### Dados
+
+Esta vista utiliza o array de metadados sobre os trabalhos (campo *extension*) e mostra para o usuário através de um bubble graph com os trabalhos.
