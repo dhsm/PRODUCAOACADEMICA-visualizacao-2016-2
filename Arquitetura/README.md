@@ -10,7 +10,7 @@
 ## Tecnologias
 * D3.js
 
-## Especificações sobre cada vista
+# Especificações sobre cada vista
 ### Relacionamento Professor x Professor
 ![alt tag](edges.png)
 #### Dados
@@ -46,3 +46,15 @@ Esta vista também utililza apenas os dados do campo *authors*. A dinâmica é a
 #### Dados
 
 Esta vista utiliza o array de metadados sobre os trabalhos (campo *extension*) e mostra para o usuário através de um bubble graph com os trabalhos.
+
+# Vistas múltiplas
+
+Ações em cada uma das vistas devem mudar o estado das outras, da seguinte forma
+
+|  Ação |  Vista 1 [Relações] |  Vista 2 [Trabalhos] |  Vista 3 [Conexões] |
+|---|---|---|---|
+| Clicar em um professor na V1  |  - | Mostrar apenas os trabalhos deste professor  |  Focar o grafo no professor|
+| Clicar em um trabalho na V2  | Mostrar a ligação específica dos autores neste trabalho  | -  | Focar no do trabalho autor mais conectado  |
+| Clicar em um professor na V3  | Selecionar o professor  |  Mostrar os trabalhos deste professor | -  |
+| Clicar um dos filtros de linha de pesquisa | Mudar a cor dos professores que publicaram nesta linha de pesquisa |  Mostrar apenas os trabalhos desta linha de pesquisa | Colocar uma borda nos autores que publicaram nesta linha de pesquisa |
+| Filtrar por ano  | Mudar a cor dos professores que publicaram no ano selecionado  |  Mostrar apenas os trabalhos publicados no ano selecionado | Colocar uma borda nos autores que publicaram durante o ano selecionado |
