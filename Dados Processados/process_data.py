@@ -15,7 +15,7 @@ def getProfessors(json_data):
                     authors_dict.append(author['name'])
 
     return authors_dict
-
+    
 class MyTest(unittest.TestCase):
     def testReadJSON(self):
         self.assertEqual(readJSON('data.json')[0]["ies"],"UNIVERSIDADE FEDERAL DE PERNAMBUCO")
