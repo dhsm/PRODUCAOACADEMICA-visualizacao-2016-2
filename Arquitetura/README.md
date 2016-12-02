@@ -9,6 +9,7 @@
 
 ## Tecnologias
 * D3.js
+* Crossfilter
 
 # Especificações sobre cada vista
 ### Relacionamento Professor x Professor
@@ -58,3 +59,11 @@ Ações em cada uma das vistas devem mudar o estado das outras, da seguinte form
 | Clicar em um professor na V3  | Selecionar o professor  |  Mostrar os trabalhos deste professor | -  |
 | Clicar um dos filtros de linha de pesquisa | Mudar a cor dos professores que publicaram nesta linha de pesquisa |  Mostrar apenas os trabalhos desta linha de pesquisa | Colocar uma borda nos autores que publicaram nesta linha de pesquisa |
 | Filtrar por ano  | Mudar a cor dos professores que publicaram no ano selecionado  |  Mostrar apenas os trabalhos publicados no ano selecionado | Colocar uma borda nos autores que publicaram durante o ano selecionado |
+
+Para a filtrar os dados de acordo com os requisitos usamos a biblioteca Crossfilter.
+
+Criamos novos datasets com alguns dados já precessados para facilitar os próximos passos. 
+* .json com professor_name,academic_work_ids[],professors_worked_with[]
+* .json com academic_work_id,professor1,professor2,how_many_times_collaborated
+* .json com research_line,authors[]
+* .json com author,published_work_years[]
