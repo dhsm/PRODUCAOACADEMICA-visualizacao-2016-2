@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>D3</title>
-		<script src="https://d3js.org/d3.v3.min.js"></script>
-		<style type="text/css">
-
-		.node {
+.node {
   font: 300 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
   fill: #bbb;
 }
@@ -49,11 +41,3 @@
 .link--target {
   stroke: #2ca02c;
 }
-		</style>
-	</head>
-	<body>
-
-	  <script src="bubble.js"></script>
-	  <div id="vis1" width="600" height="600"></div>
-	</body>
-</html>

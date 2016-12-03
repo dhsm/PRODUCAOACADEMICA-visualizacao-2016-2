@@ -1,98 +1,96 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Mundo CIn - Centro de Informática - Universidade Fedearal de Pernambuco</title>
 	<meta charset="utf-8">
-
 	<!-- JQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
 	<!-- Materialize CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-
-	<!-- D3 -->
-	<script src="https://d3js.org/d3.v4.min.js"></script>
-
+	<!-- D3 V4-->
+	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+	<!-- D3 V3 -->
+	<script src="https://d3js.org/d3.v3.min.js"></script>
 	<!-- Local Imports -->
 	<script src="index.js"></script>
+	<script src="bubble.js"></script>
+	<script src="edge.js"></script>
 	<link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="edge.css">
 </head>
-<body>
 
+<body>
 	<div id="main" class="row">
 		<!-- TITLE -->
 		<div class="z-depth-5 col s12 newgray title">
-			<h3 class="center-align white-text">Mundo CIn</h3>
+			<h3 class="center-align ">Mundo CIn</h3>
 		</div>
 		<!-- END TITLE -->
-		<div class="col s12 newgray-light fill sm8 md8 lg4 nopadding nomargin">
+		<div class="col s12 newgray-light nopadding nomargin">
 			<!-- PROFESSOR RELATIONS -->
-			<div class="col s12 m12 l6 fill sm3 md3 lg4">
-				<div class="card blue-grey darken-1">
-					<div class="card-content white-text">
+			<div class="col s12 m12 l6">
+				<div class="card darken-1">
+					<div class="card-content">
 						<span class="card-title">Relacionamento Professor x Professor</span>
 						<div id="vis0">
-							
 						</div>
 					</div>
 					<div class="card-action">
-						<div class="white-text">Ano:</div>
-							<p>
-								<input type="checkbox" class="filled-in" id="allyears" checked="checked" />
-								<label for="allyears" data-position="bottom" data-delay="50" data-tooltip="Selecione esta opção para mostrar dados de todos os anos simultaneamente" class="tooltipped">Todos</label>
-							</p>
-							<p class="range-field">
-								<input type="range" id="slider" min="2013" max="2016" />
-							</p>
-
+						<div class="">Ano:</div>
+						<p class="range-field">
+							<input type="range" id="slider" min="2013" max="2016" value="2013"/>
+						</p>
+						<p class="right-align">
+							<input type="checkbox" class="filled-in" id="allyears" checked="checked" />
+							<label for="allyears" data-position="bottom" data-delay="50" data-tooltip="Selecione esta opção para mostrar dados de todos os anos simultaneamente" class="tooltipped">Todos</label>
+						</p>
 					</div>
 					<div class="card-action">
-						<div class="white-text">SORT:</div>
-						<a href="">By Name</a>
-						<a href="">By Research Field</a>
-						<a href="">By Similarity</a>
+						<div class="">AGRUPAR:</div>
+						<a href="">por Nome</a>
+						<a href="">por Área de Pesquisa</a>
+						<a href="">por Similaridade</a>
 					</div>
-				 </div>
+				</div>
 			</div>
 			<!-- END OF PROFESSOR RELATIONS -->
-			<div class="col s12 m12 l6 fill sm4 md4 lg4 nopadding nomargin">
+			<div class="col s12 m12 l6 nopadding nomargin">
 				<!-- ACADEMIC WORK -->
-				<div class="col s12 m12 l12 fill sm2 md2 lg2">
-					<div class="card blue-grey darken-1">
-						<div class="card-content white-text">
+				<div class="col s12 m12 l12">
+					<div class="card darken-1">
+						<div class="card-content">
 							<span class="card-title">Trabalhos Acadêmicos</span>
-							<div id="vis1">
-								
+							<div id="vis1" class="fill sm2">
 							</div>
 						</div>
 						<div class="card-action">
-							<div class="white-text">SORT:</div>
-							<a href="">By Name</a>
-							<a href="">By Research Field</a>
-							<a href="">By Similarity</a>
+							<div class="">AGRUPAR:</div>
+							<a href="">por Nome</a>
+							<a href="">por Área de Pesquisa</a>
+							<a href="">por Similaridade</a>
 						</div>
 					</div>
 				</div>
 				<!-- END ACADEMIC WORK -->
-				<div class="col s12 m12 l12 fill sm2 md2 lg2 nopadding nomargin">
+				<div class="col s12 m12 l12 nopadding nomargin">
 					<!-- ACADEMIC CONNECTION -->
-					<div class="col s12 m12 l6 fill sm2 md2 lg2 nomargin">
-						<div class="card blue-grey darken-1">
-							<div class="card-content white-text">
+					<div class="col s12 m12 l6 nomargin">
+						<div class="card darken-1">
+							<div class="card-content">
 								<span class="card-title">Conexões Acadêmicas</span>
 								<div id="vis2">
-									
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- END ACADEMIC CONNECTION-->
 					<!-- FILTERS -->
-					<dir class="col s12 m12 l6 fill sm2 md2 lg4 nomargin">
-						<div class="card blue-grey darken-1">
-							<div class="card-content white-text fill sm2">
-								<span class="card-title">Filtros</span>
+					<dir class="col s12 m12 l6 nomargin">
+						<div class="card darken-1">
+							<div class="card-content">
+							<span class="card-title">Filtros</span>
 								<div id="filters">
 									<div class="col s12 m6 l6 card-action">
 										<p>
@@ -187,5 +185,11 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		draw_relation_graph();
+	});
+	</script>
 </body>
+
 </html>
