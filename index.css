@@ -6,101 +6,79 @@
 	background: #354751;
 }
 
+.col.nomargin{
+	margin: 0;
+}
+
+.col.nopadding{
+	padding: 0 0.3rem;
+	left: 0;
+	right: 0;
+}
+
 .fill.sm8{
 	height: 200vh;
-	margin: 0;
-	padding: 0;
 }
 
 .fill.sm7{
 	height: 175vh;
-	margin: 0;
-	padding: 0;
 }
 
 .fill.sm6{
 	height: 150vh;
-	margin: 0;
-	padding: 0;
 }
 
 .fill.sm5{
 	height: 125vh;
-	margin: 0;
-	padding: 0;
 }
 
 .fill.sm4{
 	height: 100vh;
-	margin: 0;
-	padding: 0;
 }
 
 .fill.sm3{
 	height: 75vh;
-	margin: 0;
-	padding: 0;
 }
 
 .fill.sm2{
 	height: 50vh;
-	margin: 0;
-	padding: 0;
 }
 
 .fill.sm1{
 	height: 25vh;
-	margin: 0;
-	padding: 0;
 }
 
 @media only screen and (min-width: 601px) {
 	.fill.md8{
 		height: 200vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.md7{
 		height: 175vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.md6{
 		height: 150vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.md5{
 		height: 125vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.md4{
 		height: 100vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.md3{
 		height: 75vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.md2{
 		height: 50vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.md1{
 		height: 25vh;
-		margin: 0;
-		padding: 0;
 	}
 }
 
@@ -108,49 +86,33 @@
 @media only screen and (min-width: 993px) {
 	.fill.lg8{
 		height: 200vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.lg7{
 		height: 175vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.lg6{
 		height: 150vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.lg5{
 		height: 125vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.lg4{
 		height: 100vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.lg3{
 		height: 75vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.lg2{
 		height: 50vh;
-		margin: 0;
-		padding: 0;
 	}
 
 	.fill.lg1{
 		height: 25vh;
-		margin: 0;
-		padding: 0;
 	}
 }
