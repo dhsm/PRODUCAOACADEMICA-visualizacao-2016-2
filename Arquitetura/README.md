@@ -62,8 +62,8 @@ Ações em cada uma das vistas devem mudar o estado das outras, da seguinte form
 
 Para a filtrar os dados de acordo com os requisitos usamos a biblioteca Crossfilter.
 
-Criamos novos datasets com alguns dados já precessados para facilitar os próximos passos. 
+Criamos novos datasets com alguns dados já precessados para facilitar os próximos passos.
 * .json com professor_name,academic_work_ids[],professors_worked_with[]
-* .json com academic_work_id,professor1,professor2,how_many_times_collaborated
+* .json com academic_work_ids[],professor1,professor2
 * .json com research_line,authors[]
 * .json com author,published_work_years[]
