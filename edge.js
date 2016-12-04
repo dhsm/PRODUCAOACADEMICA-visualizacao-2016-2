@@ -55,6 +55,7 @@ function draw_relation_graph() {
     var matrix;
 
     var dataProcessed = []
+    var dataProcessed2 = []
 
     function mouseovered(d) {
         node
@@ -139,100 +140,169 @@ function draw_relation_graph() {
     }
 
     console.log("Called!")
-    d3.json("producao_academica_CCEC_2015.json", function(data) {
+    d3.csv("teachers.csv", function(dataTeachers) {
+        d3.json("producao_academica_CCEC_2015.json", function(data) {
 
-        console.log(data);
+            console.log(data);
 
-        for (var i = 0; i < data.length; i++) {
-            //Adding all colaborator
+            for (var i = 0; i < data.length; i++) {
+                //Adding all colaborator
 
-            for (var j = 0; j < data[i].authors.length; j++) {
-                //Verify if exists otherwise add to array
+                for (var j = 0; j < data[i].authors.length; j++) {
+                    //Verify if exists otherwise add to array
 
-                if (people.indexOf(data[i].authors[j].name.toLowerCase()) <= -1) {
+                    if (people.indexOf(data[i].authors[j].name.toLowerCase()) <= -1) {
 
-                    people.push(data[i].authors[j].name.toLowerCase());
+                        people.push(data[i].authors[j].name.toLowerCase());
 
-                    if (data[i].authors[j].category == "Discente") {
-                        peopleType.push(0) //Azul escuro
-                    } else if (data[i].authors[j].category == "Docente") {
-                        peopleType.push(1) //Azul claro
-                    } else if (data[i].authors[j].category == "Participante Externo") {
-                        peopleType.push(2) //Laranja
-                    } else {
-                        peopleType.push(3) //rosinha claro
+                        if (data[i].authors[j].category == "Discente") {
+                            peopleType.push(0) //Azul escuro
+                        } else if (data[i].authors[j].category == "Docente") {
+                            peopleType.push(1) //Azul claro
+                        } else if (data[i].authors[j].category == "Participante Externo") {
+                            peopleType.push(2) //Laranja
+                        } else {
+                            peopleType.push(3) //rosinha claro
+                        }
                     }
                 }
             }
-        }
 
-        matrix = zeros([people.length, people.length])
 
-        for (var i = 0; i < data.length; i++) {
+            matrix = zeros([people.length, people.length])
 
-            for (var j = 0; j < data[i].authors.length; j++) {
+            for (var i = 0; i < data.length; i++) {
 
-                for (var k = 0; k < data[i].authors.length; k++) {
+                for (var j = 0; j < data[i].authors.length; j++) {
 
-                    if (k != j) {
+                    for (var k = 0; k < data[i].authors.length; k++) {
 
-                        indexAuthor1 = people.indexOf(data[i].authors[j].name.toLowerCase())
-                        indexAuthor2 = people.indexOf(data[i].authors[k].name.toLowerCase())
+                        if (k != j) {
 
-                        matrix[indexAuthor1][indexAuthor2] = matrix[indexAuthor1][indexAuthor2] + 1
+                            indexAuthor1 = people.indexOf(data[i].authors[j].name.toLowerCase())
+                            indexAuthor2 = people.indexOf(data[i].authors[k].name.toLowerCase())
+
+                            matrix[indexAuthor1][indexAuthor2] = matrix[indexAuthor1][indexAuthor2] + 1
+                        }
                     }
                 }
             }
-        }
 
-        //filling nodes
 
-        for (var i = 0; i < people.length; i++) {
+            function formatName(obj){
 
-            if (peopleType[i] == 1) {
-                var newObject = {
-                    name: people[i],
+                var nameSplit = obj.split(" ")
+
+                return nameSplit[0] + " " + nameSplit[nameSplit.length -1] 
+            }
+
+              //Formating name to first and last
+              people = people.map(formatName)
+
+              dataTeachers = dataTeachers.map(function (obj) {
+                obj.name = formatName(obj.name)
+                return obj
+            })
+
+            //filling nodes
+            for (var i = 0; i < people.length; i++) {
+
+                if (peopleType[i] == 1) {
+                    var newObject = {
+                        name: people[i],
+                        size: 0,
+                        imports: []
+                    }
+
+                var researchLine;
+
+                for (var j = 0; j < dataTeachers.length; j++) {
+                    if(dataTeachers[j].name == people[i]){
+                        researchLine = dataTeachers[j].researchLine
+
+                    }
+                }
+                 
+
+                var newObject2 = {
+                    name: researchLine+"."+people[i],
                     size: 0,
-                    imports: []
+                    imports:[]
                 }
 
                 for (var j = 0; j < people.length; j++) {
 
                     if (matrix[i][j] > 0 && peopleType[j] == 1) {
-                        newObject.imports.push(people[j])
+                            newObject.imports.push(people[j]);
+
+                        var researchLineOther;
+
+                        for (var k = 0; k < dataTeachers.length; k++) {
+                            if(dataTeachers[k].name == people[j]){
+                                researchLineOther = dataTeachers[k].researchLine;
+
+                            }
+                        }
+                        newObject2.imports.push(researchLineOther+"."+people[j]);    
                     }
                 }
-                dataProcessed.push(newObject)
+                    
+                    dataProcessed.push(newObject);
+                    dataProcessed2.push(newObject2);
+                }
             }
-        }
 
-        var nodes = cluster.nodes(packageHierarchy(dataProcessed)),
-            links = packageImports(nodes);
+            function sortName(a,b){
+                if (a.name < b.name)
+                  return -1;
+                if (a.name > b.name)
+                  return 1;
+                return 0;
+            };
 
-        link = link
-            .data(bundle(links))
-            .enter().append("path")
-            .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
-            .attr("class", "link")
-            .attr("d", line);
+            dataProcessed.sort(sortName);
+            dataProcessed2.sort(sortName);
 
-        node = node
-            .data(nodes.filter(function(n) {
-                return !n.children;
-            }))
-            .enter().append("text")
-            .attr("class", "node")
-            .attr("dy", ".31em")
-            .attr("transform", function(d) {
-                return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)");
-            })
-            .style("text-anchor", function(d) {
-                return d.x < 180 ? "start" : "end";
-            })
-            .text(function(d) {
-                return d.key;
-            })
-            .on("mouseover", mouseovered)
-            .on("mouseout", mouseouted);
+
+            var finalData;
+
+            //if(sortType==1){
+
+            //    finalData = dataProcessed;
+            //}else{
+
+                finalData = dataProcessed2;
+            //}
+
+
+            var nodes = cluster.nodes(packageHierarchy(finalData)),
+                links = packageImports(nodes);
+
+            link = link
+                .data(bundle(links))
+                .enter().append("path")
+                .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
+                .attr("class", "link")
+                .attr("d", line);
+
+            node = node
+                .data(nodes.filter(function(n) {
+                    return !n.children;
+                }))
+                .enter().append("text")
+                .attr("class", "node")
+                .attr("dy", ".31em")
+                .attr("transform", function(d) {
+                    return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)");
+                })
+                .style("text-anchor", function(d) {
+                    return d.x < 180 ? "start" : "end";
+                })
+                .text(function(d) {
+                    return d.key;
+                })
+                .on("mouseover", mouseovered)
+                .on("mouseout", mouseouted);
+        });
     });
 }
