@@ -193,7 +193,7 @@ function draw_relation_graph() {
 
                 var nameSplit = obj.split(" ")
 
-                return nameSplit[0] + " " + nameSplit[nameSplit.length -1] 
+                return nameSplit[0] + " " + nameSplit[nameSplit.length -1]
             }
 
               //Formating name to first and last
@@ -222,7 +222,7 @@ function draw_relation_graph() {
 
                     }
                 }
-                 
+
 
                 var newObject2 = {
                     name: researchLine+"."+people[i],
@@ -243,14 +243,15 @@ function draw_relation_graph() {
 
                             }
                         }
-                        newObject2.imports.push(researchLineOther+"."+people[j]);    
+                        newObject2.imports.push(researchLineOther+"."+people[j]);
                     }
                 }
-                    
+
                     dataProcessed.push(newObject);
                     dataProcessed2.push(newObject2);
                 }
             }
+
 
             function sortName(a,b){
                 if (a.name < b.name)
