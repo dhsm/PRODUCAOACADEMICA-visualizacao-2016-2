@@ -1,4 +1,8 @@
-function draw_relation_graph(data,dataTeachers,callback) {
+function draw_relation_graph(data,dataTeachers,alphabeticalOrder,update,callback) {
+
+  if (update){
+  	d3.select("#vis0 > svg").remove()
+  }
   var locked = false;
   var name_selected;
 
@@ -288,8 +292,11 @@ function draw_relation_graph(data,dataTeachers,callback) {
 
               //    finalData = dataProcessed;
               //}else{
-
-                  finalData = dataProcessed;
+              if(alphabeticalOrder){
+                finalData = dataProcessed2;
+              }else{
+                finalData = dataProcessed;
+              }
               //}
 
 
