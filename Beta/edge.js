@@ -1,5 +1,6 @@
 function draw_relation_graph(data,callback) {
     var locked = false;
+    var name_selected;
 
     function zeros(dimensions) {
         var array = [];
@@ -54,12 +55,30 @@ function draw_relation_graph(data,callback) {
 
     var dataProcessed = []
 
+    var toggleColor = (function(){
+      console.log("oi")
+        return function(){
+            d3.select(this).style("class", "node--selected");
+
+        }
+    })();
+
     function professorClicked(d){
       locked = true;
+      node.each(function(n) {
+        console.log(d3.select(this).style()[0][0])
+        //d3.select(this).style("fill","#bbb");
+        //d3.select(this).style("font-weight","300");
+      });
       mouseovered(d);
       console.log(d);
-      callback(d.name);
+      console.log(d3.select(this))
 
+      d3.select(this).style("fill","#000");
+      d3.select(this).style("font-weight","700");
+
+      name_selected = d.name;
+      callback(d.name);
     }
 
     function mouseovered(d) {
@@ -89,13 +108,15 @@ function draw_relation_graph(data,callback) {
     }
 
     function mouseouted(d) {
+
       if(!locked){
+        console.log("mouse out");
         link.classed("link--target", false)
             .classed("link--source", false);
 
         node.classed("node--target", false)
             .classed("node--source", false);
-        }
+      }
     }
 
     d3.select(self.frameElement).style("height", diameter + "px");
@@ -247,5 +268,6 @@ function draw_relation_graph(data,callback) {
             .on("mouseover", mouseovered)
             .on("mouseout", mouseouted)
             .on("click", professorClicked);
+            //.on("click", toggleColor);
 
 }
