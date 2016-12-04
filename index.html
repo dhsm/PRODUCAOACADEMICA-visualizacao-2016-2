@@ -17,24 +17,26 @@
 	<script src="index.js"></script>
 	<script src="bubble.js"></script>
 	<script src="edge.js"></script>
+	<script src="graph.js"></script>
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<link rel="stylesheet" type="text/css" href="edge.css">
 </head>
 
-<body>
+<body class="newgray-light">
 	<div id="main" class="row">
 		<!-- TITLE -->
 		<div class="z-depth-5 col s12 newgray title">
-			<h3 class="center-align ">Mundo CIn</h3>
+			<h3 class="center-align white-text">Mundo CIn</h3>
 		</div>
 		<!-- END TITLE -->
-		<div class="col s12 newgray-light nopadding nomargin">
+		<div class="col s12 nopadding nomargin">
 			<!-- PROFESSOR RELATIONS -->
 			<div class="col s12 m12 l6">
 				<div class="card darken-1">
 					<div class="card-content">
 						<span class="card-title">Relacionamento Professor x Professor</span>
-						<div id="vis0">
+						<div id="vis0" class="fill sm3">
+						<svg></svg>
 						</div>
 					</div>
 					<div class="card-action">
@@ -63,6 +65,7 @@
 						<div class="card-content">
 							<span class="card-title">Trabalhos Acadêmicos</span>
 							<div id="vis1" class="fill sm2">
+								<svg></svg>
 							</div>
 						</div>
 						<div class="card-action">
@@ -78,9 +81,12 @@
 					<!-- ACADEMIC CONNECTION -->
 					<div class="col s12 m12 l6 nomargin">
 						<div class="card darken-1">
-							<div class="card-content">
+							<div class="card-content fill sm2">
 								<span class="card-title">Conexões Acadêmicas</span>
-								<div id="vis2">
+								<div id="vis2" class="fill sm2">
+								<svg>
+									
+								</svg>
 								</div>
 							</div>
 						</div>
@@ -89,7 +95,7 @@
 					<!-- FILTERS -->
 					<dir class="col s12 m12 l6 nomargin">
 						<div class="card darken-1">
-							<div class="card-content">
+							<div class="card-content fill sm2">
 							<span class="card-title">Filtros</span>
 								<div id="filters">
 									<div class="col s12 m6 l6 card-action">
@@ -188,6 +194,7 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		draw_relation_graph();
+		draw_connection_graph();
 	});
 	</script>
 </body>
