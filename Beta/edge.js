@@ -1,4 +1,4 @@
-function draw_relation_graph() {
+function draw_relation_graph(data) {
 
     function zeros(dimensions) {
         var array = [];
@@ -9,8 +9,6 @@ function draw_relation_graph() {
 
         return array;
     }
-
-    diameter
 
     var diameter = $("#vis0").width(),
         radius = diameter / 2,
@@ -44,7 +42,6 @@ function draw_relation_graph() {
     var link = svg.append("g").selectAll(".link"),
         node = svg.append("g").selectAll(".node");
 
-
     var allData;
 
     var i = 0;
@@ -57,11 +54,11 @@ function draw_relation_graph() {
     var dataProcessed = []
 
     function mouseovered(d) {
-        node
-            .each(function(n) { n.target = n.source = false; });
+        node.each(function(n) {
+                n.target = n.source = false;
+            });
 
-        link
-            .classed("link--target", function(l) {
+        link.classed("link--target", function(l) {
                 if (l.target === d) return l.source.source = true;
             })
             .classed("link--source", function(l) {
@@ -70,10 +67,11 @@ function draw_relation_graph() {
             .filter(function(l) {
                 return l.target === d || l.source === d;
             })
-            .each(function() { this.parentNode.appendChild(this); });
+            .each(function() {
+                this.parentNode.appendChild(this);
+            });
 
-        node
-            .classed("node--target", function(n) {
+        node.classed("node--target", function(n) {
                 return n.target;
             })
             .classed("node--source", function(n) {
@@ -82,12 +80,10 @@ function draw_relation_graph() {
     }
 
     function mouseouted(d) {
-        link
-            .classed("link--target", false)
+        link.classed("link--target", false)
             .classed("link--source", false);
 
-        node
-            .classed("node--target", false)
+        node.classed("node--target", false)
             .classed("node--source", false);
     }
 
@@ -101,7 +97,10 @@ function draw_relation_graph() {
             var node = map[name],
                 i;
             if (!node) {
-                node = map[name] = data || { name: name, children: [] };
+                node = map[name] = data || {
+                    name: name,
+                    children: []
+                };
                 if (name.length) {
                     node.parent = find(name.substring(0, i = name.lastIndexOf(".")));
                     node.parent.children.push(node);
@@ -131,7 +130,10 @@ function draw_relation_graph() {
         // For each import, construct a link from the source to target node.
         nodes.forEach(function(d) {
             if (d.imports) d.imports.forEach(function(i) {
-                imports.push({ source: map[d.name], target: map[i] });
+                imports.push({
+                    source: map[d.name],
+                    target: map[i]
+                });
             });
         });
 
@@ -139,9 +141,6 @@ function draw_relation_graph() {
     }
 
     console.log("Called!")
-    d3.json("producao_academica_CCEC_2015.json", function(data) {
-
-        console.log(data);
 
         for (var i = 0; i < data.length; i++) {
             //Adding all colaborator
@@ -209,11 +208,12 @@ function draw_relation_graph() {
         var nodes = cluster.nodes(packageHierarchy(dataProcessed)),
             links = packageImports(nodes);
 
-        console.log("LINKS ",links)
         link = link
             .data(bundle(links))
             .enter().append("path")
-            .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
+            .each(function(d) {
+                d.source = d[0], d.target = d[d.length - 1];
+            })
             .attr("class", "link")
             .attr("d", line);
 
@@ -235,5 +235,5 @@ function draw_relation_graph() {
             })
             .on("mouseover", mouseovered)
             .on("mouseout", mouseouted);
-    });
+
 }

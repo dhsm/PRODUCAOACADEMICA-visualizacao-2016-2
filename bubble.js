@@ -28,7 +28,7 @@ d3.json("producao_academica_CCEC.json", function(data) {
 
 	var clusters = new Array(numberClusters); //It stores the biggest bubble of the cluster
 
-	var nodes = [] 
+	var nodes = []
 
 		//	ADD ON THE OBJECT THE INFORMATION RELATIVE TO THAT WORK -----> TODO
 		for (var j = 0; j < data.length; j++) {
@@ -78,7 +78,7 @@ d3.json("producao_academica_CCEC.json", function(data) {
 		var force = d3.layout.force()
 		.nodes(nodes)
 		.size([width, height])
-		.gravity(.02)
+		.gravity(.0001)
 		.charge(0)
 		.on("tick", tick)
 		.start();
@@ -102,7 +102,7 @@ d3.json("producao_academica_CCEC.json", function(data) {
 
 		  	function formatText(data){
 
-		  		var text = "Name:" + data.name + "<br/>Authors: "  
+		  		var text = "Name:" + data.name + "<br/>Authors: "
 
 		  		for (var i = 0; i<data.authors.length; i++) {
 		  			text+=data.authors[i].name + "<br/>"
@@ -175,12 +175,3 @@ d3.json("producao_academica_CCEC.json", function(data) {
 		};
 	}
 	});
-
-
-
-
-
-
-
-
-

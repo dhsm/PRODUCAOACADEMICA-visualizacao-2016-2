@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Mundo CIn - Centro de Informática - Universidade Fedearal de Pernambuco</title>
+	<meta charset="utf-8">
+	<!-- JQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Materialize CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+	<!-- D3 V4-->
+	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+	<!-- D3 V3 -->
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<!-- Crossfilter -->
+	<script type="text/javascript" src="https://rawgithub.com/NickQiZhu/dc.js/master/web/js/crossfilter.js"></script>
+	<!-- Local Imports -->
+	<script src="index.js"></script>
+	<script src="bubble.js"></script>
+	<script src="edge.js"></script>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="edge.css">
+</head>
+
+<body>
+	<div id="main" class="row">
+		<!-- TITLE -->
+		<div class="z-depth-5 col s12 newgray title">
+			<h3 class="center-align ">Mundo CIn</h3>
+		</div>
+		<!-- END TITLE -->
+		<div class="col s12 newgray-light nopadding nomargin">
+			<!-- PROFESSOR RELATIONS -->
+			<div class="col s12 m12 l6">
+				<div class="card darken-1">
+					<div class="card-content">
+						<span class="card-title">Relacionamento Professor x Professor</span>
+						<div id="vis0">
+						</div>
+					</div>
+					<div class="card-action">
+						<div class="">Ano:</div>
+						<p class="range-field">
+							<input type="range" id="slider" min="2013" max="2016" value="2013"/>
+						</p>
+						<p class="right-align">
+							<input type="checkbox" class="filled-in" id="allyears" checked="checked" />
+							<label for="allyears" data-position="bottom" data-delay="50" data-tooltip="Selecione esta opção para mostrar dados de todos os anos simultaneamente" class="tooltipped">Todos</label>
+						</p>
+					</div>
+					<div class="card-action">
+						<div class="">AGRUPAR:</div>
+						<a href="">por Nome</a>
+						<a href="">por Área de Pesquisa</a>
+						<a href="">por Similaridade</a>
+					</div>
+				</div>
+			</div>
+			<!-- END OF PROFESSOR RELATIONS -->
+			<div class="col s12 m12 l6 nopadding nomargin">
+				<!-- ACADEMIC WORK -->
+				<div class="col s12 m12 l12">
+					<div class="card darken-1">
+						<div class="card-content">
+							<span class="card-title">Trabalhos Acadêmicos</span>
+							<div id="vis1" class="fill sm2">
+							</div>
+						</div>
+						<div class="card-action">
+							<div class="">AGRUPAR:</div>
+							<a href="">por Nome</a>
+							<a href="">por Área de Pesquisa</a>
+							<a href="">por Similaridade</a>
+						</div>
+					</div>
+				</div>
+				<!-- END ACADEMIC WORK -->
+				<div class="col s12 m12 l12 nopadding nomargin">
+					<!-- ACADEMIC CONNECTION -->
+					<div class="col s12 m12 l6 nomargin">
+						<div class="card darken-1">
+							<div class="card-content">
+								<span class="card-title">Conexões Acadêmicas</span>
+								<div id="vis2">
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END ACADEMIC CONNECTION-->
+					<!-- FILTERS -->
+					<dir class="col s12 m12 l6 nomargin">
+						<div class="card darken-1">
+							<div class="card-content">
+							<span class="card-title">Filtros</span>
+								<div id="filters">
+									<div class="col s12 m6 l6 card-action">
+										<p>
+											<input type="checkbox" class="filled-in" id="filter1" checked="checked" />
+											<label for="filter1" data-position="bottom" data-delay="50" data-tooltip="Engenharia de Software" class="tooltipped">E.S.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter2" checked="checked" />
+											<label for="filter2" data-position="bottom" data-delay="50" data-tooltip="Inteligencia Artificial Simbólica" class="tooltipped">A.S.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter3" checked="checked" />
+											<label for="filter3" data-position="bottom" data-delay="50" data-tooltip="Redes de Computadores" class="tooltipped">R.C.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter4" checked="checked" />
+											<label for="filter4" data-position="bottom" data-delay="50" data-tooltip="Sistemas Distribuídos" class="tooltipped">Si.D.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter5" checked="checked" />
+											<label for="filter5" data-position="bottom" data-delay="50" data-tooltip="Mídia e Intetação" class="tooltipped">M.I.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter6" checked="checked" />
+											<label for="filter6" data-position="bottom" data-delay="50" data-tooltip="Não Informado" class="tooltipped">N.I.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter7" checked="checked" />
+											<label for="filter7" data-position="bottom" data-delay="50" data-tooltip="Banco de Dados" class="tooltipped">B.D.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter8" checked="checked" />
+											<label for="filter8" data-position="bottom" data-delay="50" data-tooltip="Redes Neurais" class="tooltipped">R.N.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter9" checked="checked" />
+											<label for="filter9" data-position="bottom" data-delay="50" data-tooltip="Processamento de Imagem" class="tooltipped">P.I.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter10" checked="checked" />
+											<label for="filter10" data-position="bottom" data-delay="50" data-tooltip="Lógica e Sistemas Dedutivos" class="tooltipped">L.S.D.</label>
+										</p>
+									</div>
+									<div class="col s12 m6 l6">
+										<p>
+											<input type="checkbox" class="filled-in" id="filter11" checked="checked" />
+											<label for="filter11" data-position="bottom" data-delay="50" data-tooltip="Análise de Dados Simbólica e/ou Númericos e Metódos Afins" class="tooltipped">A.D.S.N.M.A.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter12" checked="checked" />
+											<label for="filter12" data-position="bottom" data-delay="50" data-tooltip="Algoritmos e Complexidade" class="tooltipped">Al.C.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter13" checked="checked" />
+											<label for="filter13" data-position="bottom" data-delay="50" data-tooltip="Arquitetura de Computadores" class="tooltipped">Ar.C.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter14" checked="checked" />
+											<label for="filter14" data-position="bottom" data-delay="50" data-tooltip="Matemática Computacional" class="tooltipped">M.C.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter15" checked="checked" />
+											<label for="filter15" data-position="bottom" data-delay="50" data-tooltip="Engenharia da Computação" class="tooltipped">E.C.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter16" checked="checked" />
+											<label for="filter16" data-position="bottom" data-delay="50" data-tooltip="Processamento de Linguagem Natural" class="tooltipped">P.L.N.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter17" checked="checked" />
+											<label for="filter17" data-position="bottom" data-delay="50" data-tooltip="Gestão do Conhecimento Aplicada aos Sistemas de Informação" class="tooltipped">G.C.A.S.I.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter18" checked="checked" />
+											<label for="filter18" data-position="bottom" data-delay="50" data-tooltip="Linguagens de Programação" class="tooltipped">L.P.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter19" checked="checked" />
+											<label for="filter19" data-position="bottom" data-delay="50" data-tooltip="Sistemas Digitais" class="tooltipped">S.Di.</label>
+										</p>
+										<p>
+											<input type="checkbox" class="filled-in" id="filter20" checked="checked" />
+											<label for="filter20" data-position="bottom" data-delay="50" data-tooltip="Administração e Integração de Sistemas" class="tooltipped">A.I.S.</label>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</dir>
+					<!-- END FILTERS -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		d3.json("data_with_index.json", function(data) {
+			d3.json("work_and_collaboration_by_professor.json", function(data_professors) {
+				draw_relation_graph(data);
+				//draw_bubble_graph(data);
+
+				//Filters
+			  var cf = crossfilter(data);
+			  // Create dimension by Works
+			  var byIDs = cf.dimension(function(p) {return p.index;});
+
+			  var professor = data_professors.find(function(element, index, array) {
+			    return element.name === 'VERONICA TEICHRIEB';
+			  });
+
+			  // Array of things you want to filter
+			  var f = professor.works;
+
+			  byIDs.filter(function(d){
+			     return f.indexOf(d) > -1;
+			   });
+				 console.log(byIDs.top(Infinity));
+				 draw_bubble_graph(byIDs.top(Infinity));
+			});
+		});
+
+
+	});
+	</script>
+</body>
+
+</html>
