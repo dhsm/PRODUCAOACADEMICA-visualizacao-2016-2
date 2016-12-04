@@ -83,7 +83,7 @@ d3.json("producao_academica_CCEC.json", function(data) {
 		.on("tick", tick)
 		.start();
 
-		var svg = d3.select("#vis1").append("svg")
+		var svg = d3.select("#vis1").select("svg")
 		.attr("width", width)
 		.attr("height", height);
 

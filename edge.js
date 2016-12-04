@@ -35,7 +35,7 @@ function draw_relation_graph() {
             return d.x / 180 * Math.PI;
         });
 
-    var svg = d3.select("#vis0").append("svg")
+    var svg = d3.select("#vis0").select("svg")
         .attr("width", diameter)
         .attr("height", diameter)
         .append("g")
