@@ -1,4 +1,8 @@
-function draw_bubble_graph(data){
+function draw_bubble_graph(data,update){
+
+if (update){
+	d3.select("#vis1 > svg").remove()
+}
 
 var width = 960,
 height = 500,

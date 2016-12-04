@@ -191,26 +191,34 @@
 	$(document).ready(function() {
 		d3.json("data_with_index.json", function(data) {
 			d3.json("work_and_collaboration_by_professor.json", function(data_professors) {
-				draw_relation_graph(data);
-				//draw_bubble_graph(data);
-
 				//Filters
 			  var cf = crossfilter(data);
 			  // Create dimension by Works
 			  var byIDs = cf.dimension(function(p) {return p.index;});
 
-			  var professor = data_professors.find(function(element, index, array) {
-			    return element.name === 'VERONICA TEICHRIEB';
-			  });
+				draw_relation_graph(data, function(name) {
+				  // this anonymous function will run when the
+				  // callback is called
+				  console.log("callback called! " + name);
+					filterWorksByProfessor(name.toUpperCase());
+				});
+				draw_bubble_graph(byIDs.top(Infinity),false);
 
-			  // Array of things you want to filter
-			  var f = professor.works;
+				function filterWorksByProfessor(professor_name){
+					byIDs.filterAll();
+					console.log("chamou filter works");
+					console.log(professor_name)
+					var professor = data_professors.find(function(element, index, array) {
+				    return element.name === professor_name;
+				  });
+					// Array of things you want to filter
+				  var f = professor.works;
 
-			  byIDs.filter(function(d){
-			     return f.indexOf(d) > -1;
-			   });
-				 console.log(byIDs.top(Infinity));
-				 draw_bubble_graph(byIDs.top(Infinity));
+				  byIDs.filter(function(d){
+				     return f.indexOf(d) > -1;
+				   });
+					 draw_bubble_graph(byIDs.top(Infinity),true);
+				};
 			});
 		});
 

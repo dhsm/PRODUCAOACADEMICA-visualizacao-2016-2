@@ -1,4 +1,5 @@
-function draw_relation_graph(data) {
+function draw_relation_graph(data,callback) {
+    var locked = false;
 
     function zeros(dimensions) {
         var array = [];
@@ -53,6 +54,14 @@ function draw_relation_graph(data) {
 
     var dataProcessed = []
 
+    function professorClicked(d){
+      locked = true;
+      mouseovered(d);
+      console.log(d);
+      callback(d.name);
+
+    }
+
     function mouseovered(d) {
         node.each(function(n) {
                 n.target = n.source = false;
@@ -80,11 +89,13 @@ function draw_relation_graph(data) {
     }
 
     function mouseouted(d) {
+      if(!locked){
         link.classed("link--target", false)
             .classed("link--source", false);
 
         node.classed("node--target", false)
             .classed("node--source", false);
+        }
     }
 
     d3.select(self.frameElement).style("height", diameter + "px");
@@ -234,6 +245,7 @@ function draw_relation_graph(data) {
                 return d.key;
             })
             .on("mouseover", mouseovered)
-            .on("mouseout", mouseouted);
+            .on("mouseout", mouseouted)
+            .on("click", professorClicked);
 
 }
