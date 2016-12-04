@@ -117,7 +117,17 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 		}
 	}
 
-	//console.log(people);
+
+	var tooltip = d3.select("body")
+		.append("div")
+		.style("position", "absolute")
+		.style("z-index", "10")
+		.style("visibility", "hidden")
+		.style("background", "#000")
+		.style("color", "white")
+		.style("font-size", "12px")
+		.text("name");
+	
 
 	var link = svg.append("g")
 	.attr("class", "links")
@@ -137,7 +147,10 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 	.call(d3.drag()
 		.on("start", dragstarted)
 		.on("drag", dragged)
-		.on("end", dragended));
+		.on("end", dragended))
+	.on("mouseover", function(d){tooltip.text(d.id); return tooltip.style("visibility", "visible");})
+	.on("mousemove", function(){return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+	.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
 	node.append("title")
 	.text(function(d) { return d.id; });
