@@ -8,17 +8,29 @@ function zeros(dimensions) {
 	return array;
 }
 
+var container;
+
+function zoomed() {
+		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+		d3.event.sourceEvent.stopPropagation();
+}
+//var zoom = d3.behavior.zoom().x(x).y(y).on("zoom", zoomed);
+var zoom = d3.behavior.zoom().scaleExtent([0.1,5]).on("zoom", zoomed);
 
 var svg = d3.select("svg"),
 width = +svg.attr("width"),
 height = +svg.attr("height");
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-var simulation = d3.forceSimulation()
-.force("link", d3.forceLink().id(function(d) { return d.id; }))
-.force("charge", d3.forceManyBody())
-.force("center", d3.forceCenter(width / 2, height / 2));
+
+
+var color = d3.scale.category20();
+
+var force = d3.layout.force()
+    .gravity(0.05)
+    .distance(50)
+    .charge(-300)
+    .size([width, height]);
 
 
 var allData;
@@ -36,7 +48,7 @@ var graph = {
 	links: []
 }
 
-d3.json("producao_academica_CCEC_2015.json", function(data) {
+d3.json("producao_academica_CCEC.json", function(data)  {
 
 	console.log(data);
 
@@ -91,7 +103,7 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 	for (var i = 0; i < people.length; i++) {
 		
 		var newObject = {
-			id: people[i],
+			name: people[i],
 			group: peopleType[i]
 		}
 		
@@ -107,8 +119,8 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 
 				var newObject = {
 
-					source: people[i],
-					target: people[j],
+					source: i,
+					target: j,
 					value: matrix[i][j]
 				}
 
@@ -117,9 +129,37 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 		}
 	}
 
-	//console.log(people);
 
-	var link = svg.append("g")
+	var tooltip = d3.select("body")
+		.append("div")
+		.style("position", "absolute")
+		.style("z-index", "10")
+		.style("visibility", "hidden")
+		.style("background", "#000")
+		.style("color", "white")
+		.style("font-size", "12px")
+		.text("name");
+
+
+	force
+      .nodes(graph.nodes)
+      .links(graph.links)
+      .start();
+
+	//   // var link = svg.selectAll(".link")
+	//   //     .data(graph.links)
+	//   //   .enter().append("line")
+	//   //     .attr("class", "link");
+
+	//   // var node = svg.selectAll(".node")
+	//   //     .data(json.nodes)
+	//   //   .enter().append("g")
+	//   //     .attr("class", "node")
+	//   //     .call(force.drag);
+
+	container = svg.append("g").call(zoom);
+
+	var link = container.append("g")
 	.attr("class", "links")
 	.selectAll("line")
 	.data(graph.links)
@@ -127,40 +167,29 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 	.attr("stroke-width", function(d) { return Math.sqrt(d.value); })
 	.attr("stroke", "grey");
 
-	var node = svg.append("g")
+	var node = container.append("g")
 	.attr("class", "nodes")
 	.selectAll("circle")
 	.data(graph.nodes)
 	.enter().append("circle")
 	.attr("r", 5)
 	.attr("fill", function(d) { return color(d.group); })
-	.call(d3.drag()
-		.on("start", dragstarted)
-		.on("drag", dragged)
-		.on("end", dragended));
+	.call(force.drag)
+	.on("mouseover", function(d){tooltip.text(d.name); return tooltip.style("visibility", "visible");})
+	.on("mousemove", function(){return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+	.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+	//.on("click", function(d){
+    //	container.attr("transform", "translate(" + (d.x -100) + "," + (d.y-100) + ")");
+    //});
 
-	node.append("title")
-	.text(function(d) { return d.id; });
+	force.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
 
-	simulation
-	.nodes(graph.nodes)
-	.on("tick", ticked);
-
-	simulation.force("link")
-	.links(graph.links);
-
-	function ticked() {
-		link
-		.attr("x1", function(d) { return d.source.x; })
-		.attr("y1", function(d) { return d.source.y; })
-		.attr("x2", function(d) { return d.target.x; })
-		.attr("y2", function(d) { return d.target.y; });
-
-		node
-		.attr("cx", function(d) { return d.x; })
-		.attr("cy", function(d) { return d.y; });
-	}
-
+    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  	});
 
 });
 

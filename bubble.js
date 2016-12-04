@@ -15,12 +15,12 @@ d3.json("producao_academica_CCEC.json", function(data) {
 
 	function zoomed() {
 		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-		// d3.event.stopPropagation();
+		d3.event.sourceEvent.stopPropagation();
 	}
 
 	var zoom = d3.behavior.zoom()
-  .scaleExtent([0.5, 5])
-  .on("zoom", zoomed);
+  	.scaleExtent([0.5, 5])
+  	.on("zoom", zoomed);
 
 	//Creating clusters
 
