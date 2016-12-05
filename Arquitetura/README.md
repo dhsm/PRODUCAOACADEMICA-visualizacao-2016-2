@@ -64,6 +64,7 @@ Para a filtrar os dados de acordo com os requisitos usamos a biblioteca Crossfil
 
 Criamos novos datasets com alguns dados já precessados para facilitar os próximos passos.
 * .json com professor_name,academic_work_ids[],professors_worked_with[]
+* .json com professor_name,people_worked_with[{name, group,index_local,quantity_collaborations}]
 * .json com academic_work_ids[],professor1,professor2
 * .json com research_line,authors[]
 * .json com author,published_work_years[]
