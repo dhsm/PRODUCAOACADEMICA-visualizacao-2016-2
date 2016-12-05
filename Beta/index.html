@@ -188,6 +188,13 @@
 					draw_relation_graph(data,dataTeachers,false,false, function(name) {
 							  console.log("callback called! " + name);
 								filterWorksByProfessor(name.toUpperCase());
+								byProfessorName.filterAll();
+								console.log("NOME DENTRO DO GRAPH")
+								console.log(name)
+								byProfessorName.filter(name.toUpperCase());
+								draw_connection_graph(name,byProfessorName.top(Infinity)[0]['collaborators']);
+
+
 					});
 					draw_bubble_graph(byIDs.top(Infinity),false);
 

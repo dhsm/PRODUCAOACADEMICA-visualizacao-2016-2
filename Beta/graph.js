@@ -8,7 +8,7 @@ function draw_connection_graph(name,data) {
 
         return array;
     }
-
+    console.log("Chamou graph")
     var container;
 
     function zoomed() {
