@@ -190,6 +190,8 @@
 	var dataGlobal;
 	var dataTeachersGlobal;
 	var data_professorsGlobal;
+	var cfGlobal;
+	var byIDsGlobal;
 
 	function loadData() {
 
@@ -203,6 +205,8 @@
 					dataGlobal = data;
 					dataTeachersGlobal = dataTeachers;
 					data_professorsGlobal = data_professors;
+					cfGlobal = crossfilter(dataGlobal);
+					byIDsGlobal = cf.dimension(function(p) {return p.index;});
 
 					draw_relation_graph(data,dataTeachers,false,false, function(name) {
 							  console.log("callback called! " + name);
@@ -236,46 +240,44 @@
 	$(document).ready(loadData);
 
 	function AgruparPorNome(){
-		draw_relation_graph(dataGlobal,dataTeachersGlobal,true,true, function(name) {
-					console.log("callback called! " + name);
-					filterWorksByProfessor(name.toUpperCase());
-		});
-	};
-
-	function AgruparPorArea(){
 		draw_relation_graph(dataGlobal,dataTeachersGlobal,false,true, function(name) {
 					console.log("callback called! " + name);
 					filterWorksByProfessor(name.toUpperCase());
 		});
 	};
 
-	function filterWorksByProfessor(professor_name){
-		//Filters
-		var cf = crossfilter(dataGlobal);
-		// Create dimension by Works
-		var byIDs = cf.dimension(function(p) {return p.index;});
+	function AgruparPorArea(){
+		draw_relation_graph(dataGlobal,dataTeachersGlobal,true,true, function(name) {
+					console.log("callback called! " + name);
+					filterWorksByProfessor(name.toUpperCase());
+		});
+	};
 
-		byIDs.filterAll();
+	function filterWorksByProfessor(professor_name){
+		var professor_name_filtered = professor_name;
+		if (professor_name_filtered.indexOf('.') > -1){
+			professor_name_filtered = professor_name.substring(professor_name.indexOf(".")+1,professor_name.length)
+		}
+		var res = professor_name_filtered.split(" ")
+		var professor_name_short = res[0]+ " " + res[res.length-1];
+		//Filters
+		byIDsGlobal.filterAll();
 		var professor = data_professorsGlobal.find(function(element, index, array) {
-			var name = professor_name;
-			if (name.indexOf('.') > -1){
-				name = professor_name.substring(professor_name.indexOf(".")+1,professor_name.length)
-			}
-			console.log("NAME ",name)
-			var res = name.split(" ")
-			var first_and_last_name = res[0]+ " " + res[res.length-1];
-			console.log("FIRST AND LAST ",first_and_last_name)
-			console.log("FIRST AND LAST ",first_and_last_name)
-			return first_and_last_name === name;
+			var res = element.name.split(" ")
+			var element_name_short = res[0]+ " " + res[res.length-1];
+			console.log("element.name ",element.name)
+			console.log("professor_name ",professor_name)
+			console.log("professor_name certo",name)
+			return professor_name_short === element_name_short;
 		});
 		console.log("PROFESSOR ",professor);
 		// Array of things you want to filter
 		var f = professor.works;
 		console.log(professor.works)
-		byIDs.filter(function(d){
+		byIDsGlobal.filter(function(d){
 			 return f.indexOf(d) > -1;
 		 });
-		 draw_bubble_graph(byIDs.top(Infinity),true);
+		 draw_bubble_graph(byIDsGlobal.top(Infinity),true);
 	};
 	</script>
 </body>
