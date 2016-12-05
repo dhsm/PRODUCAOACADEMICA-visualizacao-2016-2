@@ -21,7 +21,7 @@ function draw_connection_graph() {
 	var width = $("#vis2").width()
 	var height = $("#vis2").height()
 
-	var svg = d3.select("#vis2").select("svg")
+	var svg = d3.select("#vis2").select("svg").attr("width", width).attr("height", height)
 
 	console.log(svg)
 
@@ -91,41 +91,66 @@ function draw_connection_graph() {
 						indexAuthor2 = people.indexOf(data[i].authors[k].name.toLowerCase())
 
 						matrix[indexAuthor1][indexAuthor2] = matrix[indexAuthor1][indexAuthor2]+1
+						matrix[indexAuthor2][indexAuthor1] = matrix[indexAuthor2][indexAuthor1]+1
 					}
 				}
 			}
 		}
 
+
+		var personIndex = 4
 		//filling nodes
+		var desiredNode = {
+			name: people[personIndex],
+			group: peopleType[personIndex]
+		}
+		graph.nodes.push(desiredNode)
 
+		var k = 1;
 		for (var i = 0; i < people.length; i++) {
 			
-			var newObject = {
-				name: people[i],
-				group: peopleType[i]
-			}
-			
-			graph.nodes.push(newObject)
-		}
 
+			if(matrix[personIndex][i]>0){
 
-		for (var i = 0; i < people.length; i++) {
-			
-			for(var j = i ; j < people.length; j++){
+				var newObjectNode = {
+					name: people[i],
+					group: peopleType[i]
+				}
+				
+				var newObjectLink = {
 
-				if(matrix[i][j]>0){
+						source: 0,
+						target: k,
+						value: matrix[personIndex][i]
+				}
 
-					var newObject = {
-
-						source: i,
-						target: j,
-						value: matrix[i][j]
-					}
-
-					graph.links.push(newObject)
-				}		
+				graph.links.push(newObjectLink);
+				graph.nodes.push(newObjectNode);
+				k = k + 1;
+				console.log(k)
 			}
 		}
+
+		console.log(graph)
+
+
+		// for (var i = 0; i < people.length; i++) {
+			
+		// 	for(var j = i ; j < people.length; j++){
+
+		// 		if(matrix[i][j]>0){
+
+		// 			var newObject = {
+
+		// 				source: i,
+		// 				target: j,
+		// 				value: matrix[i][j]
+		// 			}
+
+		// 			graph.links.push(newObject)
+		// 		}		
+		// 	}
+		// }
 
 		var tooltip = d3.select("body")
 			.append("div")
@@ -163,7 +188,7 @@ function draw_connection_graph() {
 		.selectAll("line")
 		.data(graph.links)
 		.enter().append("line")
-		.attr("stroke-width", function(d) { return Math.sqrt(d.value); })
+		.attr("stroke-width", function(d) { return Math.sqrt(d.value*2); })
 		.attr("stroke", "grey");
 
 		var node = container.append("g")
