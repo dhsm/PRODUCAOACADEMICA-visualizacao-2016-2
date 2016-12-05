@@ -44,44 +44,28 @@ def getPeople(json_data):
     people_unique = []
     index = 0
     for person in people_with_duplicates:
-        if person['name'] not in people_names:
-            people_names.append(person['name'])
+        if person['name'].upper() not in people_names:
+            people_names.append(person['name'].upper())
             person['ID'] = index
+            person['name'] = person['name'].upper()
             people_unique.append(person)
             index+=1
 
     return people_unique
 
+def getPersonName(people, personID):
+    print("ID: ")
+    print(personID)
+    return [x['name'] for x in people if x['ID'] == personID][0]
+
+def getPersonCategory(people, person_name):
+    return [x['category'] for x in people if x['name'] == person_name.upper()][0]
+
+def getPersonID(people, person_name):
+    return [x['ID'] for x in people if x['name'] == person_name][0]
+
 def getProfessors(people):
     return [x for x in people if x['category']=='Docente']
-
-def getCollaboratorsMatrix(dataset,people):
-    people_len = len(people)
-    matrix = numpy.zeros(shape=(people_len,people_len),dtype='int')
-    for academic_work in dataset:
-        for author in academic_work['authors']:
-            for author2 in academic_work['authors']:
-                if author['name'] != author2['name']:
-                    person1ID = int([x for x in people if x['name'] == author['name']][0]['ID'])
-                    person2ID = int([x for x in people if x['name'] == author2['name']][0]['ID'])
-                    matrix[person1ID][person2ID] = matrix[person1ID][person2ID]+1
-
-    return matrix
-
-def getCollaborators(matrix,professors):
-    collaborations = []
-    for person in professors:
-        print(person)
-        print(matrix[person['ID']-1,:])
-        for idx, val in numpy.ndenumerate(matrix[person['ID']-1,:]):
-            a = {}
-            if val > 0:
-                a['professor1'] = person['ID']
-                a['professor2'] = idx[0]+1
-                a['quantity_collaborations'] = val
-                collaborations.append(a)
-
-    return collaborations
 
 def getDATASET1():
     export = []
@@ -100,26 +84,65 @@ def getDATASET1():
     with open('work_and_collaboration_by_professor.json' ,'w') as nf:
         json.dump(export, nf)
 
-def getDATASET2():
-    data = readJSON('data_with_index.json')
-    people = getPeople(data)
-    professors = getProfessors(people)
-    matrix = getCollaboratorsMatrix(data,people)
-    export = getCollaborators(matrix,professors)
-
-    with open('quantity_collaborations.json' ,'w') as nf:
-        json.dump(export, nf)
 
 def getDATASET3():
+    people = []
     data = readJSON('data_with_index.json')
-    people = getPeople(data)
-    print(people)
+    people_with_all_data = getPeople(data)
+    for idx, val in enumerate(data):
+        for jdx, val2 in enumerate(val['authors']):
+            if(val2['name'].upper() not in people):
+                people.append(val2['name'].upper())
+
+    matrix = numpy.zeros(shape=(len(people),len(people)),dtype='int')
+    for idx, val in enumerate(data):
+        for jdx, val2 in enumerate(val['authors']):
+            for kdx, val3 in enumerate(val['authors']):
+                if(jdx != kdx):
+                    indexAuthor1 = people.index(val2['name'].upper())
+                    indexAuthor2 = people.index(val3['name'].upper())
+
+                    matrix[indexAuthor1][indexAuthor2] = matrix[indexAuthor1][indexAuthor2] + 1
+
+    nodes = []
+    dados = []
+    for idx,val in enumerate(people):
+        if (matrix[4][idx]>0):
+            nodes.append(people[idx])
+
+    for idx,val in enumerate(people):
+        if getPersonCategory(people_with_all_data,people[idx]) == 'Docente':
+            b = {}
+            name = people[idx]
+            b[name] = []
+            index = 0
+            for jdx,val2 in enumerate(people):
+                if (matrix[idx][jdx]>0):
+                    a = {}
+                    a['name'] = people[jdx]
+                    a['category'] = getPersonCategory(people_with_all_data,people[jdx])
+                    a['target'] = str(index)
+                    a['quantity_collaborations'] = str(matrix[idx][jdx])
+                    index+=1
+                    b.setdefault(name, []).append(a)
+                    nodes.append(a)
+            dados.append(b)
+
+
+
+    print(matrix)
+    #print(nodes)
+    with open('dataset_test_only_professors.json' ,'w') as nf:
+        json.dump(dados, nf)
+
+
 
 
 
 #getDATASET1()
 #getDATASET2()
-getDATASET3()
+#getDATASET3()
+getDATASETTESTE()
 
 class MyTest(unittest.TestCase):
     def testReadJSON(self):
