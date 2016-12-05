@@ -1,5 +1,7 @@
 function draw_connection_graph(name,data,update) {
-
+  console.log("DATA GRAPH")
+  console.log(name)
+  console.log(data)
   if (update){
   	d3.select("#vis2 > svg").remove()
     console.log("LIMPAR GRAPH")
@@ -28,8 +30,6 @@ function draw_connection_graph(name,data,update) {
 
     var svg = d3.select("#vis2").append("svg").attr("width", width).attr("height", height)
 
-    console.log(svg)
-
     var color = ["#80cbc4", "#000000",  "#00695c", "#f57f17"]
 
     var force = d3.layout.force()
@@ -54,9 +54,6 @@ function draw_connection_graph(name,data,update) {
         links: []
     }
 
-//    d3.json("producao_academica_CCEC.json", function(data) {
-
-        console.log(data);
 
 
 
@@ -70,7 +67,6 @@ function draw_connection_graph(name,data,update) {
         graph.nodes.push(newDesiredNode)
         var k = 1;
         for (var i = 0; i < data.length; i++) {
-          console.log(data[i])
           var cor = -1
           if (data[i][1] == "Discente") {
               cor = 0;

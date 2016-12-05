@@ -153,8 +153,11 @@
 	var dataGlobal;
 	var dataTeachersGlobal;
 	var data_professorsGlobal;
+	var data_collaboratiosGlobal;
 	var cfGlobal;
 	var byIDsGlobal;
+	var cfCollaborationsGlobal;
+	var byProfessorNameGlobal;
 
 	function loadData() {
 
@@ -163,58 +166,63 @@
 				d3.csv("teachers.csv", function(dataTeachers) {
 					d3.json("new_professors_and_collaborations.json", function(data_collaboratios) {
 					//Filters
-				  var cf = crossfilter(data);
-					var cfCollaborations = crossfilter(data_collaboratios);
+				  //var cf = crossfilter(data);
+					//var cfCollaborations = crossfilter(data_collaboratios);
 					console.log(data_collaboratios)
 				  // Create dimension by Works
-				  var byIDs = cf.dimension(function(p) {return p.index;});
-				  var byProfessorName = cfCollaborations.dimension(function(p) {return p.name;});
-					byProfessorName.filter("JAELSON FREIRE BRELAZ DE CASTRO");
+				  //var byIDs = cf.dimension(function(p) {return p.index;});
+				  //var byProfessorName = cfCollaborations.dimension(function(p) {return p.name;});
+					//byProfessorName.filter("JAELSON FREIRE BRELAZ DE CASTRO");
 					//byProfessorName.filter("EDSON COSTA DE BARROS CARVALHO FILHO");
 					console.log("FILTRO DAS COLABORAÇÕES")
-					console.log(byProfessorName.top(Infinity)[0]['collaborators'])
-					draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorName.top(Infinity)[0]['collaborators'],false);
+					//console.log(byProfessorName.top(Infinity)[0]['collaborators'])
+					//draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorName.top(Infinity)[0]['collaborators'],false);
 					//draw_connection_graph("EDSON COSTA DE BARROS CARVALHO FILHO",byProfessorName.top(Infinity)[0]['collaborators']);
 
 					dataGlobal = data;
 					dataTeachersGlobal = dataTeachers;
 					data_professorsGlobal = data_professors;
+					data_collaboratiosGlobal = data_collaboratios;
 					cfGlobal = crossfilter(dataGlobal);
-					byIDsGlobal = cf.dimension(function(p) {return p.index;});
+					cfCollaborationsGlobal = crossfilter(data_collaboratiosGlobal)
+					byIDsGlobal = cfGlobal.dimension(function(p) {return p.index;});
+					byProfessorNameGlobal = cfCollaborationsGlobal.dimension(function(p) {return p.name;});
 
-					draw_relation_graph(data,dataTeachers,false,false, function(name) {
-							  console.log("callback called! " + name);
-								filterWorksByProfessor(name.toUpperCase());
-								byProfessorName.filterAll();
-								console.log("NOME DENTRO DO GRAPH")
-								console.log(name)
-								console.log("NAME FULL")
-								console.log(getFullProfessorName(name))
-								byProfessorName.filter(getFullProfessorName(name));
-								draw_connection_graph(name,byProfessorName.top(Infinity)[0]['collaborators'],true);
+					draw_bubble_graph(byIDsGlobal.top(Infinity),false);
+					AgruparPorNome();
 
 
-					});
-					draw_bubble_graph(byIDs.top(Infinity),false);
+					// draw_relation_graph(data,dataTeachers,false,false, function(name) {
+					// 		  console.log("callback called! " + name);
+					// 			filterWorksByProfessor(name.toUpperCase());
+					// 			byProfessorName.filterAll();
+					// 			console.log("NOME DENTRO DO GRAPH")
+					// 			console.log(name)
+					// 			console.log("NAME FULL")
+					// 			console.log(getFullProfessorName(name))
+					// 			byProfessorName.filter(getFullProfessorName(name));
+					// 			draw_connection_graph(name,byProfessorName.top(Infinity)[0]['collaborators'],true);
+					// });
+					//draw_bubble_graph(byIDs.top(Infinity),false);
 
 
-					function filterWorksByProfessor(professor_name){
-						byIDs.filterAll();
-						var professor = data_professors.find(function(element, index, array) {
-							var res = element.name.split(" ")
-							var first_and_last_name = res[0]+ " " + res[res.length-1];
-							console.log(first_and_last_name)
-					    return first_and_last_name === professor_name;
-					  });
-						console.log("PROFESSOR ",professor);
-						// Array of things you want to filter
-					  var f = professor.works;
-
-					  byIDs.filter(function(d){
-					     return f.indexOf(d) > -1;
-					   });
-						 draw_bubble_graph(byIDs.top(Infinity),true);
-					};
+					// function filterWorksByProfessor(professor_name){
+					// 	byIDs.filterAll();
+					// 	var professor = data_professors.find(function(element, index, array) {
+					// 		var res = element.name.split(" ")
+					// 		var first_and_last_name = res[0]+ " " + res[res.length-1];
+					// 		console.log(first_and_last_name)
+					//     return first_and_last_name === professor_name;
+					//   });
+					// 	console.log("PROFESSOR ",professor);
+					// 	// Array of things you want to filter
+					//   var f = professor.works;
+					//
+					//   byIDs.filter(function(d){
+					//      return f.indexOf(d) > -1;
+					//    });
+					// 	 draw_bubble_graph(byIDs.top(Infinity),true);
+					// };
 				});
 				});
 			});
@@ -225,16 +233,43 @@
 	$(document).ready(loadData);
 
 	function AgruparPorNome(){
+		byIDsGlobal.filterAll();
+		byProfessorNameGlobal.filterAll();
+		byProfessorNameGlobal.filter("JAELSON FREIRE BRELAZ DE CASTRO")
+		draw_bubble_graph(byIDsGlobal.top(Infinity),true);
+		draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
 		draw_relation_graph(dataGlobal,dataTeachersGlobal,false,true, function(name) {
 					console.log("callback called! " + name);
+					console.log("callback called! " + name);
 					filterWorksByProfessor(name.toUpperCase());
+					var full_name = getFullProfessorName(name)
+					byProfessorNameGlobal.filterAll();
+					byProfessorNameGlobal.filter(full_name);
+					console.log(byProfessorNameGlobal.top(Infinity))
+					draw_connection_graph(name,byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
+
 		});
 	};
 
 	function AgruparPorArea(){
+		byIDsGlobal.filterAll();
+		byProfessorNameGlobal.filterAll();
+		byProfessorNameGlobal.filter("JAELSON FREIRE BRELAZ DE CASTRO")
+		draw_bubble_graph(byIDsGlobal.top(Infinity),true);
+		draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
 		draw_relation_graph(dataGlobal,dataTeachersGlobal,true,true, function(name) {
 					console.log("callback called! " + name);
+					console.log("callback called! " + name);
 					filterWorksByProfessor(name.toUpperCase());
+					byProfessorNameGlobal.filterAll();
+					console.log("NOME DENTRO DO GRAPH")
+					console.log(name)
+					console.log("NAME FULL")
+					var name_filtered = filterNameWithResearchArea(name)
+					console.log(getFullProfessorName(name_filtered))
+					byProfessorNameGlobal.filterAll();
+					byProfessorNameGlobal.filter(getFullProfessorName(name_filtered));
+					draw_connection_graph(name_filtered,byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
 		});
 	};
 
@@ -272,6 +307,14 @@
 			return name === element_name_short;
 		});
 		return professor['name']
+	}
+
+	function filterNameWithResearchArea(name_with_research){
+		var professor_name_filtered = name_with_research.toUpperCase();
+		if (professor_name_filtered.indexOf('.') > -1){
+			professor_name_filtered = name_with_research.substring(name_with_research.indexOf(".")+1,name_with_research.length)
+		}
+		return professor_name_filtered
 	}
 	</script>
 </body>
