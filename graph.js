@@ -97,10 +97,12 @@ function draw_connection_graph() {
 			}
 		}
 
+
+		var personIndex = 4
 		//filling nodes
 		var desiredNode = {
-			name: people[4],
-			group: peopleType[4]
+			name: people[personIndex],
+			group: peopleType[personIndex]
 		}
 		graph.nodes.push(desiredNode)
 
@@ -108,7 +110,7 @@ function draw_connection_graph() {
 		for (var i = 0; i < people.length; i++) {
 			
 
-			if(matrix[4][i]>0){
+			if(matrix[personIndex][i]>0){
 
 				var newObjectNode = {
 					name: people[i],
@@ -119,7 +121,7 @@ function draw_connection_graph() {
 
 						source: 0,
 						target: k,
-						value: matrix[0][i]
+						value: matrix[personIndex][i]
 				}
 
 				graph.links.push(newObjectLink);
