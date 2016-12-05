@@ -113,18 +113,20 @@ def getDATASET3():
     for idx,val in enumerate(people):
         if getPersonCategory(people_with_all_data,people[idx]) == 'Docente':
             b = {}
-            name = people[idx]
-            b[name] = []
+            b['name'] = people[idx]
+            b['collaborators'] = []
             index = 0
             for jdx,val2 in enumerate(people):
                 if (matrix[idx][jdx]>0):
                     a = {}
+                    c = []
                     a['name'] = people[jdx]
                     a['category'] = getPersonCategory(people_with_all_data,people[jdx])
                     a['target'] = str(index)
                     a['quantity_collaborations'] = str(matrix[idx][jdx])
+                    c = [people[jdx],getPersonCategory(people_with_all_data,people[jdx]),str(index),str(matrix[idx][jdx])]
                     index+=1
-                    b.setdefault(name, []).append(a)
+                    b.setdefault('collaborators', []).append(c)
                     nodes.append(a)
             dados.append(b)
 
@@ -132,7 +134,7 @@ def getDATASET3():
 
     print(matrix)
     #print(nodes)
-    with open('dataset_test_only_professors.json' ,'w') as nf:
+    with open('new_dataset_test_only_professors.json' ,'w') as nf:
         json.dump(dados, nf)
 
 
@@ -142,7 +144,7 @@ def getDATASET3():
 #getDATASET1()
 #getDATASET2()
 #getDATASET3()
-getDATASETTESTE()
+getDATASET3()
 
 class MyTest(unittest.TestCase):
     def testReadJSON(self):

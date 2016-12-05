@@ -164,11 +164,13 @@
 		d3.json("data_with_index.json", function(data) {
 			d3.json("work_and_collaboration_by_professor.json", function(data_professors) {
 				d3.csv("teachers.csv", function(dataTeachers) {
-					d3.json("professors_and_collaborations.json", function(data_collaboratios) {
+					d3.json("new_professors_and_collaborations.json", function(data_collaboratios) {
 					//Filters
 				  var cf = crossfilter(data);
+					var cfCollaborations(data_collaboratios);
 				  // Create dimension by Works
 				  var byIDs = cf.dimension(function(p) {return p.index;});
+
 					dataGlobal = data;
 					dataTeachersGlobal = dataTeachers;
 					data_professorsGlobal = data_professors;
