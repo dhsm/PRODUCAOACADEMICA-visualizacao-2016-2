@@ -221,6 +221,7 @@
 								filterWorksByProfessor(name.toUpperCase());
 					});
 					draw_bubble_graph(byIDs.top(Infinity),false);
+					draw_connection_graph(data);
 
 					function filterWorksByProfessor(professor_name){
 						byIDs.filterAll();

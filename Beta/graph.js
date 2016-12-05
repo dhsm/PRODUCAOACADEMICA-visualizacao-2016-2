@@ -1,4 +1,4 @@
-function draw_connection_graph() {
+function draw_connection_graph(data) {
 	function zeros(dimensions) {
 		var array = [];
 
@@ -48,8 +48,6 @@ function draw_connection_graph() {
 		nodes: [],
 		links: []
 	}
-
-	d3.json("producao_academica_CCEC.json", function(data)  {
 
 		console.log(data);
 
@@ -131,7 +129,7 @@ function draw_connection_graph() {
 			}
 		}
 
-		console.log(graph)
+		console.log(graph.links)
 
 
 		// for (var i = 0; i < people.length; i++) {
@@ -215,7 +213,7 @@ function draw_connection_graph() {
 	    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	  	});
 
-	});
+
 
 	function dragstarted(d) {
 		if (!d3.event.active) simulation.alphaTarget(0.3).restart();
