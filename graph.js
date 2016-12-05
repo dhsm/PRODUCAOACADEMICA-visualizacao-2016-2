@@ -28,9 +28,9 @@ function draw_connection_graph() {
 	var color = d3.scale.category20();
 
 	var force = d3.layout.force()
-	    .gravity(0.05)
-	    .distance(50)
-	    .charge(-300)
+	    .gravity(1)
+	    .distance(30)
+	    .charge(-1000)
 	    .size([width, height]);
 
 
@@ -102,7 +102,8 @@ function draw_connection_graph() {
 		//filling nodes
 		var desiredNode = {
 			name: people[personIndex],
-			group: peopleType[personIndex]
+			group: peopleType[personIndex],
+			customId: personIndex
 		}
 		graph.nodes.push(desiredNode)
 
@@ -114,7 +115,8 @@ function draw_connection_graph() {
 
 				var newObjectNode = {
 					name: people[i],
-					group: peopleType[i]
+					group: peopleType[i],
+					customId: i
 				}
 				
 				var newObjectLink = {
@@ -130,6 +132,47 @@ function draw_connection_graph() {
 				console.log(k)
 			}
 		}
+
+		var length = graph.nodes.length;
+		//Go though all the other nodes and check connection
+		for (var i = 1; i <length; i++) {
+			
+			for (var j = 0; j < people.length; j++) {//
+				
+				if(matrix[graph.nodes[i].customId][j]>0){
+					
+					var targetPositon = -1;
+					for (var k = 0; k< graph.nodes.length; k++) {
+						//It looks if its alredy in the array
+						if(graph.nodes[k].customId == j){
+							targetPositon = k
+						}
+					}
+
+					// if (targetPositon == -1){
+					// 	targetPositon = graph.nodes.length
+
+					// 	var newObjectNode = {
+					// 	name: people[j],
+					// 	group: peopleType[j],
+					// 	customId: j
+					// 	}
+					// 	graph.nodes.push(newObjectNode);
+					// }
+
+					if(targetPositon!=-1){
+						var newObjectLink = {
+
+							source: i,
+							target: targetPositon,
+							value: matrix[graph.nodes[i].customId][j]
+						}
+						graph.links.push(newObjectLink);
+					}
+				}
+			}
+		}
+
 
 		console.log(graph)
 
@@ -188,7 +231,7 @@ function draw_connection_graph() {
 		.selectAll("line")
 		.data(graph.links)
 		.enter().append("line")
-		.attr("stroke-width", function(d) { return Math.sqrt(d.value*2); })
+		.attr("stroke-width", function(d) { return Math.sqrt(d.value); })
 		.attr("stroke", "grey");
 
 		var node = container.append("g")
