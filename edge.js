@@ -59,7 +59,9 @@ function draw_relation_graph() {
 
     function mouseovered(d) {
         node
-            .each(function(n) { n.target = n.source = false; });
+            .each(function(n) {
+                n.target = n.source = false;
+            });
 
         link
             .classed("link--target", function(l) {
@@ -71,7 +73,9 @@ function draw_relation_graph() {
             .filter(function(l) {
                 return l.target === d || l.source === d;
             })
-            .each(function() { this.parentNode.appendChild(this); });
+            .each(function() {
+                this.parentNode.appendChild(this);
+            });
 
         node
             .classed("node--target", function(n) {
@@ -102,7 +106,10 @@ function draw_relation_graph() {
             var node = map[name],
                 i;
             if (!node) {
-                node = map[name] = data || { name: name, children: [] };
+                node = map[name] = data || {
+                    name: name,
+                    children: []
+                };
                 if (name.length) {
                     node.parent = find(name.substring(0, i = name.lastIndexOf(".")));
                     node.parent.children.push(node);
@@ -132,7 +139,10 @@ function draw_relation_graph() {
         // For each import, construct a link from the source to target node.
         nodes.forEach(function(d) {
             if (d.imports) d.imports.forEach(function(i) {
-                imports.push({ source: map[d.name], target: map[i] });
+                imports.push({
+                    source: map[d.name],
+                    target: map[i]
+                });
             });
         });
 
@@ -189,17 +199,17 @@ function draw_relation_graph() {
             }
 
 
-            function formatName(obj){
+            function formatName(obj) {
 
                 var nameSplit = obj.split(" ")
 
-                return nameSplit[0] + " " + nameSplit[nameSplit.length -1]
+                return nameSplit[0] + " " + nameSplit[nameSplit.length - 1]
             }
 
-              //Formating name to first and last
-              people = people.map(formatName)
+            //Formating name to first and last
+            people = people.map(formatName)
 
-              dataTeachers = dataTeachers.map(function (obj) {
+            dataTeachers = dataTeachers.map(function(obj) {
                 obj.name = formatName(obj.name)
                 return obj
             })
@@ -214,38 +224,38 @@ function draw_relation_graph() {
                         imports: []
                     }
 
-                var researchLine;
+                    var researchLine;
 
-                for (var j = 0; j < dataTeachers.length; j++) {
-                    if(dataTeachers[j].name == people[i]){
-                        researchLine = dataTeachers[j].researchLine
+                    for (var j = 0; j < dataTeachers.length; j++) {
+                        if (dataTeachers[j].name == people[i]) {
+                            researchLine = dataTeachers[j].researchLine
 
+                        }
                     }
-                }
 
 
-                var newObject2 = {
-                    name: researchLine+"."+people[i],
-                    size: 0,
-                    imports:[]
-                }
+                    var newObject2 = {
+                        name: researchLine + "." + people[i],
+                        size: 0,
+                        imports: []
+                    }
 
-                for (var j = 0; j < people.length; j++) {
+                    for (var j = 0; j < people.length; j++) {
 
-                    if (matrix[i][j] > 0 && peopleType[j] == 1) {
+                        if (matrix[i][j] > 0 && peopleType[j] == 1) {
                             newObject.imports.push(people[j]);
 
-                        var researchLineOther;
+                            var researchLineOther;
 
-                        for (var k = 0; k < dataTeachers.length; k++) {
-                            if(dataTeachers[k].name == people[j]){
-                                researchLineOther = dataTeachers[k].researchLine;
+                            for (var k = 0; k < dataTeachers.length; k++) {
+                                if (dataTeachers[k].name == people[j]) {
+                                    researchLineOther = dataTeachers[k].researchLine;
 
+                                }
                             }
+                            newObject2.imports.push(researchLineOther + "." + people[j]);
                         }
-                        newObject2.imports.push(researchLineOther+"."+people[j]);
                     }
-                }
 
                     dataProcessed.push(newObject);
                     dataProcessed2.push(newObject2);
@@ -253,11 +263,11 @@ function draw_relation_graph() {
             }
 
 
-            function sortName(a,b){
+            function sortName(a, b) {
                 if (a.name < b.name)
-                  return -1;
+                    return -1;
                 if (a.name > b.name)
-                  return 1;
+                    return 1;
                 return 0;
             };
 
@@ -272,7 +282,7 @@ function draw_relation_graph() {
             //    finalData = dataProcessed;
             //}else{
 
-                finalData = dataProcessed2;
+            finalData = dataProcessed2;
             //}
 
 
@@ -282,7 +292,9 @@ function draw_relation_graph() {
             link = link
                 .data(bundle(links))
                 .enter().append("path")
-                .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
+                .each(function(d) {
+                    d.source = d[0], d.target = d[d.length - 1];
+                })
                 .attr("class", "link")
                 .attr("d", line);
 
