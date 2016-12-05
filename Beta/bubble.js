@@ -1,4 +1,4 @@
-function draw_bubble_graph(data,update){
+function draw_bubble_graph(data,year_filter,update){
 
 if (update){
 	d3.select("#vis1 > svg").remove()
@@ -53,10 +53,11 @@ var nodes = []
 		var r = Math.sqrt((data[j].authors.length*25)/3.14);
 		var nameWork = data[j].name
 		var authors =  data[j].authors
+		var year = data[j].year
 
 		if (maxRadius<r){maxRadius = r}
 
-			var d = {name:nameWork, authors: authors, cluster: i, radius: r};
+			var d = {name:nameWork, authors: authors, cluster: i, radius: r,year: year};
 		nodes.push(d);
 		if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
 	}
@@ -94,7 +95,12 @@ var nodes = []
 	.attr("height", height);
 
 	var container = svg.append("g").call(zoom)
-
+	if(year_filter != -1){
+		nodes = nodes.filter(function(d){console.log(d);return d.year === year_filter;})
+		console.log("FILTRANDO")
+		console.log(year_filter)
+		console.log(nodes.length)
+	}
 	var node = container.selectAll("circle")
 	.data(nodes)
 	.enter().append("circle")

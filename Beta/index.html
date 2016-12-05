@@ -84,7 +84,7 @@
 						</div>
 						<div class="left-align" style="padding-top: 20px">ANO:</div>
 						<p class="range-field">
-							<input type="range" id="slider" min="2013" max="2016" value="2013"/>
+							<input type="range" id="slider" min="2013" max="2016" value="2013" step="1" onchange="filterByYear(this.value)"/>
 						</p>
 						<p class="right-align">
 							<input type="checkbox" class="filled-in" id="allyears" checked="checked" />
@@ -187,7 +187,7 @@
 					byYearGlobal = cfCollaborationsGlobal.dimension(function(p) {return p.year;});
 					byResearchLineGlobal = cfCollaborationsGlobal.dimension(function(p) {return p.researchLine;});
 
-					draw_bubble_graph(byIDsGlobal.top(Infinity),false);
+					draw_bubble_graph(byIDsGlobal.top(Infinity),-1,false);
 					AgruparPorNome();
 
 				});
@@ -204,8 +204,9 @@
 		byProfessorNameGlobal.filterAll();
 		byProfessorNameGlobal.filter("JAELSON FREIRE BRELAZ DE CASTRO")
 		d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: todos"
+		clearYearFilter();
 		console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
-		draw_bubble_graph(byIDsGlobal.top(Infinity),true);
+		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
 		draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
 		draw_relation_graph(dataGlobal,dataTeachersGlobal,false,true, function(name) {
 					console.log("callback called! " + name);
@@ -218,6 +219,7 @@
 					draw_connection_graph(name,byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
 					d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: "+name
 					console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
+					clearYearFilter();
 		});
 	};
 
@@ -225,9 +227,10 @@
 		byIDsGlobal.filterAll();
 		byProfessorNameGlobal.filterAll();
 		byProfessorNameGlobal.filter("JAELSON FREIRE BRELAZ DE CASTRO")
-		draw_bubble_graph(byIDsGlobal.top(Infinity),true);
+		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
 		draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
 		d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: todos"
+		clearYearFilter();
 		console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
 		draw_relation_graph(dataGlobal,dataTeachersGlobal,true,true, function(name) {
 					console.log("callback called! " + name);
@@ -244,6 +247,7 @@
 					draw_connection_graph(name_filtered,byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
 					d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: "+name
 					console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
+					clearYearFilter();
 		});
 	};
 
@@ -270,7 +274,7 @@
 			 return f.indexOf(d) > -1;
 		 });
 		 console.log(byIDsGlobal.top(Infinity));
-		 draw_bubble_graph(byIDsGlobal.top(Infinity),true);
+		 draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
 	};
 
 	function getFullProfessorName(name){
@@ -290,6 +294,26 @@
 		}
 		return professor_name_filtered
 	}
+
+	function filterByYear(newYear){
+		console.log("newYear")
+		console.log(newYear)
+		d3.select("#allyears").property('checked', false);
+		draw_bubble_graph(byIDsGlobal.top(Infinity),newYear,true);
+	}
+
+	function clearYearFilter(){
+		d3.select("#slider").property("value", "2013");
+		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
+		d3.select("#allyears").property('checked', true);
+	}
+
+	d3.select("#allyears").on("change", function() {
+  var type = this.value;
+	if(this.checked){
+		clearYearFilter()
+	}
+	});
 	</script>
 </body>
 
