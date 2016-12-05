@@ -25,11 +25,11 @@ function draw_connection_graph() {
 
     console.log(svg)
 
-    var color = d3.scale.category20();
+    var color = ["#80cbc4", "#000000",  "#00695c", "#f57f17"]
 
     var force = d3.layout.force()
-        .gravity(1)
-        .distance(30)
+        .gravity(2)
+        .distance(50)
         .charge(-1000)
         .size([width, height]);
 
@@ -219,7 +219,7 @@ function draw_connection_graph() {
             .data(graph.links)
             .enter().append("line")
             .attr("stroke-width", function(d) {
-                return Math.sqrt(d.value);
+                return Math.sqrt(d.value/2);
             })
             .attr("stroke", "grey");
 
@@ -230,7 +230,7 @@ function draw_connection_graph() {
             .enter().append("circle")
             .attr("r", 5)
             .attr("fill", function(d) {
-                return color(d.group);
+                return color[d.group];
             })
             .call(force.drag)
             .attr("data-position", "top")

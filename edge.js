@@ -12,7 +12,7 @@ function draw_relation_graph() {
 
     diameter
 
-    var diameter = $("#vis0").width(),
+    var diameter = Math.min($("#vis0").height(), $("#vis0").width()),
         radius = diameter / 2,
         innerRadius = radius - 120;
 

@@ -91,9 +91,15 @@
 	    var svg = d3.select("#vis1").select("svg")
 	        .attr("width", width)
 	        .attr("height", height)
-	        .on("mousewheel.zoom", null)
-	        .on("DOMMouseScroll.zoom", null)
-	        .on("wheel.zoom", null);
+	        .on("mousewheel.zoom", function(d){
+	        	d3.event.sourceEvent.stopPropagation();
+	        })
+	        .on("DOMMouseScroll.zoom", function(d){
+	        	d3.event.sourceEvent.stopPropagation();
+	        })
+	        .on("wheel.zoom", function(d){
+	        	d3.event.sourceEvent.stopPropagation();
+	        });
 
 	    var container = svg.append("g").call(zoom)
 
@@ -195,7 +201,4 @@
 	            });
 	        };
 	    }
-	    $('.tooltipped').tooltip({
-	        delay: 50
-	    });
 	});
