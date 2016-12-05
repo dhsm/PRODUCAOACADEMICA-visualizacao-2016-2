@@ -21,7 +21,7 @@ function draw_connection_graph() {
 	var width = $("#vis2").width()
 	var height = $("#vis2").height()
 
-	var svg = d3.select("#vis2").select("svg")
+	var svg = d3.select("#vis2").select("svg").attr("width", width).attr("height", height)
 
 	console.log(svg)
 
@@ -105,6 +105,7 @@ function draw_connection_graph() {
 				group: peopleType[i]
 			}
 			
+
 			graph.nodes.push(newObject)
 		}
 
