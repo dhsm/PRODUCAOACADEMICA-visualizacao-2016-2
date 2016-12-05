@@ -127,9 +127,6 @@
 							<div class="card-content" style="height: 100%">
 								<span class="card-title">Conexões Acadêmicas</span>
 								<div id="vis2" class="nomargin" style="height: 85%">
-									<svg>
-
-									</svg>
 								</div>
 							</div>
 							<div style="padding-top: 0;" class="card-action">
@@ -176,7 +173,7 @@
 					//byProfessorName.filter("EDSON COSTA DE BARROS CARVALHO FILHO");
 					console.log("FILTRO DAS COLABORAÇÕES")
 					console.log(byProfessorName.top(Infinity)[0]['collaborators'])
-					draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorName.top(Infinity)[0]['collaborators']);
+					draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorName.top(Infinity)[0]['collaborators'],false);
 					//draw_connection_graph("EDSON COSTA DE BARROS CARVALHO FILHO",byProfessorName.top(Infinity)[0]['collaborators']);
 
 					dataGlobal = data;
@@ -191,8 +188,10 @@
 								byProfessorName.filterAll();
 								console.log("NOME DENTRO DO GRAPH")
 								console.log(name)
-								byProfessorName.filter(name.toUpperCase());
-								draw_connection_graph(name,byProfessorName.top(Infinity)[0]['collaborators']);
+								console.log("NAME FULL")
+								console.log(getFullProfessorName(name))
+								byProfessorName.filter(getFullProfessorName(name));
+								draw_connection_graph(name,byProfessorName.top(Infinity)[0]['collaborators'],true);
 
 
 					});
@@ -251,21 +250,29 @@
 		var professor = data_professorsGlobal.find(function(element, index, array) {
 			var res = element.name.split(" ")
 			var element_name_short = res[0]+ " " + res[res.length-1];
-			console.log("element.name ",element.name)
-			console.log("professor_name ",professor_name)
-			console.log("professor_name certo",name)
 			return professor_name_short === element_name_short;
 		});
 		console.log("PROFESSOR ",professor);
 		// Array of things you want to filter
 		var f = professor.works;
 		console.log(professor.works)
+		byIDsGlobal.filterAll();
 		byIDsGlobal.filter(function(d){
 			 return f.indexOf(d) > -1;
 		 });
 		 console.log(byIDsGlobal.top(Infinity));
 		 draw_bubble_graph(byIDsGlobal.top(Infinity),true);
 	};
+
+	function getFullProfessorName(name){
+		name = name.toUpperCase()
+		var professor = data_professorsGlobal.find(function(element, index, array) {
+			var res = element.name.split(" ")
+			var element_name_short = res[0]+ " " + res[res.length-1];
+			return name === element_name_short;
+		});
+		return professor['name']
+	}
 	</script>
 </body>
 

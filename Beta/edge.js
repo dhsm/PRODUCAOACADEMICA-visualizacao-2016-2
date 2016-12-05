@@ -70,6 +70,7 @@ function draw_relation_graph(data,dataTeachers,alphabeticalOrder,update,callback
           //d3.select(this).style("font-weight","300");
         });
         mouseovered(d);
+        console.log("d DENTRO DO NÓ");
         console.log(d);
         console.log(d3.select(this))
 

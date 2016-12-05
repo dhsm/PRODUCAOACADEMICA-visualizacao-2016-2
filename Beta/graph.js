@@ -1,4 +1,9 @@
-function draw_connection_graph(name,data) {
+function draw_connection_graph(name,data,update) {
+
+  if (update){
+  	d3.select("#vis2 > svg").remove()
+    console.log("LIMPAR GRAPH")
+  }
     function zeros(dimensions) {
         var array = [];
 
@@ -21,7 +26,7 @@ function draw_connection_graph(name,data) {
     var width = $("#vis2").width()
     var height = $("#vis2").height()
 
-    var svg = d3.select("#vis2").select("svg").attr("width", width).attr("height", height)
+    var svg = d3.select("#vis2").append("svg").attr("width", width).attr("height", height)
 
     console.log(svg)
 
