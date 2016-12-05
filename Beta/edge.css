@@ -8,8 +8,8 @@
 }
 
 .link {
-  stroke: steelblue;
-  stroke-opacity: .4;
+  stroke: #80cbc4;
+  stroke-opacity: .6;
   fill: none;
   pointer-events: none;
 }
@@ -17,7 +17,7 @@
 .node:hover,
 .node--source,
 .node--target {
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .node--source {
@@ -25,7 +25,7 @@
 }
 
 .node--target {
-  fill: #d62728;
+  fill: #B29009;
 }
 
 .link--source,
@@ -35,9 +35,9 @@
 }
 
 .link--source {
-  stroke: #d62728;
+  stroke: #f57f17;
 }
 
 .link--target {
-  stroke: #2ca02c;
+  stroke: #00695c;
 }

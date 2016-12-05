@@ -1,11 +1,3 @@
-.newgray{
-	background: #243238;
-}
-
-.newgray-light{
-	background: #354751;
-}
-
 .col.nomargin{
 	margin: 0;
 }
@@ -15,6 +7,7 @@
 	left: 0;
 	right: 0;
 }
+
 
 .fill.sm8{
 	height: 200vh;
@@ -36,6 +29,10 @@
 	height: 100vh;
 }
 
+.fill.sm35{
+	height: 87.5vh;
+}
+
 .fill.sm3{
 	height: 75vh;
 }
@@ -48,7 +45,7 @@
 	height: 25vh;
 }
 
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 601px) and (min-aspect-ratio: 3/4) and (min-aspect-ratio: 3/4){
 	.fill.md8{
 		height: 200vh;
 	}
@@ -67,6 +64,10 @@
 
 	.fill.md4{
 		height: 100vh;
+	}
+
+	.fill.md35{
+		height: 87.5vh;
 	}
 
 	.fill.md3{
@@ -102,6 +103,10 @@
 
 	.fill.lg4{
 		height: 100vh;
+	}
+
+	.fill.lg35{
+		height: 87.5vh;
 	}
 
 	.fill.lg3{
