@@ -51,9 +51,8 @@
 					</div>
 					<div class="card-action">
 						<div class="">AGRUPAR:</div>
-						<a href="">por Nome</a>
-						<a href="">por Área de Pesquisa</a>
-						<a href="">por Similaridade</a>
+						<a href="#" onclick="AgruparPorNome();">por Nome</a>
+						<a href="#" onclick="AgruparPorArea();">por Área de Pesquisa</a>
 					</div>
 				</div>
 			</div>
@@ -188,42 +187,96 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-	$(document).ready(function() {
+	var dataGlobal;
+	var dataTeachersGlobal;
+	var data_professorsGlobal;
+
+	function loadData() {
+
 		d3.json("data_with_index.json", function(data) {
 			d3.json("work_and_collaboration_by_professor.json", function(data_professors) {
-				//Filters
-			  var cf = crossfilter(data);
-			  // Create dimension by Works
-			  var byIDs = cf.dimension(function(p) {return p.index;});
+				d3.csv("teachers.csv", function(dataTeachers) {
+					//Filters
+				  var cf = crossfilter(data);
+				  // Create dimension by Works
+				  var byIDs = cf.dimension(function(p) {return p.index;});
+					dataGlobal = data;
+					dataTeachersGlobal = dataTeachers;
+					data_professorsGlobal = data_professors;
 
-				draw_relation_graph(data, function(name) {
-				  // this anonymous function will run when the
-				  // callback is called
-				  console.log("callback called! " + name);
-					filterWorksByProfessor(name.toUpperCase());
+					draw_relation_graph(data,dataTeachers,false,false, function(name) {
+							  console.log("callback called! " + name);
+								filterWorksByProfessor(name.toUpperCase());
+					});
+					draw_bubble_graph(byIDs.top(Infinity),false);
+
+					function filterWorksByProfessor(professor_name){
+						byIDs.filterAll();
+						var professor = data_professors.find(function(element, index, array) {
+							var res = element.name.split(" ")
+							var first_and_last_name = res[0]+ " " + res[res.length-1];
+							console.log(first_and_last_name)
+					    return first_and_last_name === professor_name;
+					  });
+						console.log("PROFESSOR ",professor);
+						// Array of things you want to filter
+					  var f = professor.works;
+
+					  byIDs.filter(function(d){
+					     return f.indexOf(d) > -1;
+					   });
+						 draw_bubble_graph(byIDs.top(Infinity),true);
+					};
 				});
-				draw_bubble_graph(byIDs.top(Infinity),false);
-
-				function filterWorksByProfessor(professor_name){
-					byIDs.filterAll();
-					console.log("chamou filter works");
-					console.log(professor_name)
-					var professor = data_professors.find(function(element, index, array) {
-				    return element.name === professor_name;
-				  });
-					// Array of things you want to filter
-				  var f = professor.works;
-
-				  byIDs.filter(function(d){
-				     return f.indexOf(d) > -1;
-				   });
-					 draw_bubble_graph(byIDs.top(Infinity),true);
-				};
 			});
 		});
 
 
-	});
+	}
+	$(document).ready(loadData);
+
+	function AgruparPorNome(){
+		draw_relation_graph(dataGlobal,dataTeachersGlobal,true,true, function(name) {
+					console.log("callback called! " + name);
+					filterWorksByProfessor(name.toUpperCase());
+		});
+	};
+
+	function AgruparPorArea(){
+		draw_relation_graph(dataGlobal,dataTeachersGlobal,false,true, function(name) {
+					console.log("callback called! " + name);
+					filterWorksByProfessor(name.toUpperCase());
+		});
+	};
+
+	function filterWorksByProfessor(professor_name){
+		//Filters
+		var cf = crossfilter(dataGlobal);
+		// Create dimension by Works
+		var byIDs = cf.dimension(function(p) {return p.index;});
+
+		byIDs.filterAll();
+		var professor = data_professorsGlobal.find(function(element, index, array) {
+			var name = professor_name;
+			if (name.indexOf('.') > -1){
+				name = professor_name.substring(professor_name.indexOf(".")+1,professor_name.length)
+			}
+			console.log("NAME ",name)
+			var res = name.split(" ")
+			var first_and_last_name = res[0]+ " " + res[res.length-1];
+			console.log("FIRST AND LAST ",first_and_last_name)
+			console.log("FIRST AND LAST ",first_and_last_name)
+			return first_and_last_name === name;
+		});
+		console.log("PROFESSOR ",professor);
+		// Array of things you want to filter
+		var f = professor.works;
+		console.log(professor.works)
+		byIDs.filter(function(d){
+			 return f.indexOf(d) > -1;
+		 });
+		 draw_bubble_graph(byIDs.top(Infinity),true);
+	};
 	</script>
 </body>
 

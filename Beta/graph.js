@@ -69,7 +69,7 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 	for (var i = 0; i < data.length; i++) {
 
 		for (var j = 0; j < data[i].authors.length; j++) {
-			
+
 			for(var k = 0; k < data[i].authors.length; k++){
 
 				if(k!=j){
@@ -84,23 +84,23 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 	}
 
 
-	
+
 
 	//filling nodes
 
 	for (var i = 0; i < people.length; i++) {
-		
+
 		var newObject = {
 			id: people[i],
 			group: peopleType[i]
 		}
-		
+
 		graph.nodes.push(newObject)
 	}
 
 
 	for (var i = 0; i < people.length; i++) {
-		
+
 		for(var j = i ; j < people.length; j++){
 
 			if(matrix[i][j]>0){
@@ -113,7 +113,7 @@ d3.json("producao_academica_CCEC_2015.json", function(data) {
 				}
 
 				graph.links.push(newObject)
-			}		
+			}
 		}
 	}
 
@@ -180,7 +180,3 @@ function dragended(d) {
 	d.fx = null;
 	d.fy = null;
 }
-
-
-
-
