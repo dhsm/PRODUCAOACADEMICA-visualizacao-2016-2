@@ -90,7 +90,10 @@
 
 		var svg = d3.select("#vis1").select("svg")
 			.attr("width", width)
-			.attr("height", height);
+			.attr("height", height)
+			.on("mousewheel.zoom", null)
+		    .on("DOMMouseScroll.zoom", null)
+		    .on("wheel.zoom", null);
 
 		var container = svg.append("g").call(zoom)
 
@@ -192,4 +195,7 @@
 				});
 			};
 		}
+		 $('.tooltipped').tooltip({
+            delay: 50
+        });
 	});

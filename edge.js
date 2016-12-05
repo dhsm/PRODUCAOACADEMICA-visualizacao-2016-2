@@ -141,7 +141,7 @@ function draw_relation_graph() {
 
     console.log("Called!")
     d3.csv("teachers.csv", function(dataTeachers) {
-        d3.json("producao_academica_CCEC_2015.json", function(data) {
+        d3.json("producao_academica_CCEC.json", function(data) {
 
             console.log(data);
 
