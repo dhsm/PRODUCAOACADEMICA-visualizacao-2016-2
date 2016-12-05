@@ -110,9 +110,16 @@ def getDATASET2():
     with open('quantity_collaborations.json' ,'w') as nf:
         json.dump(export, nf)
 
+def getDATASET3():
+    data = readJSON('data_with_index.json')
+    people = getPeople(data)
+    print(people)
+
+
 
 #getDATASET1()
-getDATASET2()
+#getDATASET2()
+getDATASET3()
 
 class MyTest(unittest.TestCase):
     def testReadJSON(self):

@@ -1,6 +1,7 @@
 function draw_relation_graph(data,dataTeachers,alphabeticalOrder,update,callback) {
 
   if (update){
+    console.log("REMOVEU DIV")
   	d3.select("#vis0 > svg").remove()
   }
   var locked = false;
