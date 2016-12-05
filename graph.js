@@ -98,7 +98,7 @@ function draw_connection_graph() {
 		}
 
 
-		var personIndex = 4
+		var personIndex = 200
 		//filling nodes
 		var desiredNode = {
 			name: people[personIndex],
