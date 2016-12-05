@@ -1,4 +1,4 @@
-function draw_connection_graph(data) {
+function draw_connection_graph(name,data) {
     function zeros(dimensions) {
         var array = [];
 
@@ -49,52 +49,50 @@ function draw_connection_graph(data) {
         links: []
     }
 
-    d3.json("producao_academica_CCEC.json", function(data) {
+//    d3.json("producao_academica_CCEC.json", function(data) {
 
         console.log(data);
 
+
+
+
+
+        var newDesiredNode = {
+    			name: name,
+    			group: 1,
+    			customId: -1
+    		}
+        graph.nodes.push(newDesiredNode)
+        var k = 1;
         for (var i = 0; i < data.length; i++) {
-            //Adding all colaborator
+          console.log(data[i])
+          var cor = -1
+          if (data[i][1] == "Discente") {
+              cor = 0;
+          } else if (data[i][1] == "Docente") {
+              cor = 1;
+          } else if (data[i][1] == "Participante Externo") {
+              cor = 2;
+          } else {
+              cor = 3;
+          }
 
-            for (var j = 0; j < data[i].authors.length; j++) {
-                //Verify if exists otherwise add to array
+          var newObjectNode = {
+              name: data[i][0],
+              group: cor,
+              customId: data[i][2]
+          }
 
-                if (people.indexOf(data[i].authors[j].name.toLowerCase()) <= -1) {
+          var newObjectLink = {
 
-                    people.push(data[i].authors[j].name.toLowerCase());
+              source: 0,
+              target: k,
+              value: data[i][3]
+          }
 
-                    if (data[i].authors[j].category == "Discente") {
-                        peopleType.push(0) //Azul escuro
-                    } else if (data[i].authors[j].category == "Docente") {
-                        peopleType.push(1) //Azul claro
-                    } else if (data[i].authors[j].category == "Participante Externo") {
-                        peopleType.push(2) //Laranja
-                    } else {
-                        peopleType.push(3) //rosinha claro
-                    }
-                }
-            }
-
-        }
-
-        matrix = zeros([people.length, people.length])
-
-        for (var i = 0; i < data.length; i++) {
-
-            for (var j = 0; j < data[i].authors.length; j++) {
-
-                for (var k = 0; k < data[i].authors.length; k++) {
-
-                    if (k != j) {
-
-                        indexAuthor1 = people.indexOf(data[i].authors[j].name.toLowerCase())
-                        indexAuthor2 = people.indexOf(data[i].authors[k].name.toLowerCase())
-
-                        matrix[indexAuthor1][indexAuthor2] = matrix[indexAuthor1][indexAuthor2] + 1
-                        matrix[indexAuthor2][indexAuthor1] = matrix[indexAuthor2][indexAuthor1] + 1
-                    }
-                }
-            }
+          graph.links.push(newObjectLink);
+          graph.nodes.push(newObjectNode);
+          k = k + 1;
         }
 
 
@@ -105,7 +103,7 @@ function draw_connection_graph(data) {
 			group: peopleType[personIndex],
 			customId: personIndex
 		}
-		graph.nodes.push(desiredNode)
+		//graph.nodes.push(desiredNode)
 
 
         var personIndex = 4
@@ -115,73 +113,12 @@ function draw_connection_graph(data) {
             group: peopleType[personIndex],
             customId: personIndex
         }
-        graph.nodes.push(desiredNode)
+        //graph.nodes.push(desiredNode)
 
-        var k = 1;
-        for (var i = 0; i < people.length; i++) {
-
-
-            if (matrix[personIndex][i] > 0) {
-
-                var newObjectNode = {
-                    name: people[i],
-                    group: peopleType[i],
-                    customId: i
-                }
-
-                var newObjectLink = {
-
-                    source: 0,
-                    target: k,
-                    value: matrix[personIndex][i]
-                }
-
-                graph.links.push(newObjectLink);
-                graph.nodes.push(newObjectNode);
-                k = k + 1;
-                console.log(k)
-            }
-        }
 
         var length = graph.nodes.length;
         //Go though all the other nodes and check connection
-        for (var i = 1; i < length; i++) {
 
-            for (var j = 0; j < people.length; j++) { //
-
-                if (matrix[graph.nodes[i].customId][j] > 0) {
-
-                    var targetPositon = -1;
-                    for (var k = 0; k < graph.nodes.length; k++) {
-                        //It looks if its alredy in the array
-                        if (graph.nodes[k].customId == j) {
-                            targetPositon = k
-                        }
-                    }
-
-                    // if (targetPositon == -1){
-                    // 	targetPositon = graph.nodes.length
-
-                    // 	var newObjectNode = {
-                    // 	name: people[j],
-                    // 	group: peopleType[j],
-                    // 	customId: j
-                    // 	}
-                    // 	graph.nodes.push(newObjectNode);
-                    // }
-
-                    if (targetPositon != -1) {
-                        var newObjectLink = {
-
-                            source: i,
-                            target: targetPositon,
-                            value: matrix[graph.nodes[i].customId][j]
-                        }
-                        graph.links.push(newObjectLink);
-                    }
-                }
-            }
-        }
 
 
         console.log(graph)
@@ -272,7 +209,7 @@ function draw_connection_graph(data) {
         $('.tooltipped').tooltip({
             delay: 50
         });
-    });
+  //  });
 
     function dragstarted(d) {
         if (!d3.event.active) simulation.alphaTarget(0.3).restart();

@@ -167,9 +167,17 @@
 					d3.json("new_professors_and_collaborations.json", function(data_collaboratios) {
 					//Filters
 				  var cf = crossfilter(data);
-					var cfCollaborations(data_collaboratios);
+					var cfCollaborations = crossfilter(data_collaboratios);
+					console.log(data_collaboratios)
 				  // Create dimension by Works
 				  var byIDs = cf.dimension(function(p) {return p.index;});
+				  var byProfessorName = cfCollaborations.dimension(function(p) {return p.name;});
+					byProfessorName.filter("JAELSON FREIRE BRELAZ DE CASTRO");
+					//byProfessorName.filter("EDSON COSTA DE BARROS CARVALHO FILHO");
+					console.log("FILTRO DAS COLABORAÇÕES")
+					console.log(byProfessorName.top(Infinity)[0]['collaborators'])
+					draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorName.top(Infinity)[0]['collaborators']);
+					//draw_connection_graph("EDSON COSTA DE BARROS CARVALHO FILHO",byProfessorName.top(Infinity)[0]['collaborators']);
 
 					dataGlobal = data;
 					dataTeachersGlobal = dataTeachers;
@@ -182,7 +190,7 @@
 								filterWorksByProfessor(name.toUpperCase());
 					});
 					draw_bubble_graph(byIDs.top(Infinity),false);
-					draw_connection_graph(data);
+
 
 					function filterWorksByProfessor(professor_name){
 						byIDs.filterAll();
