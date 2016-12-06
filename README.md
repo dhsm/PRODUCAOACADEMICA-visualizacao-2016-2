@@ -1,6 +1,9 @@
 # Mundo CIn
 Visualização da produção e conexões acadêmicas do Centro de Informática-UFPE.
 
+
+Projeto inicialmente desenvolvido durante a disciplina de [Visualização de Dados 2016.2](http://www.cin.ufpe.br/~nivan/teaching/data_vis/fall_2016/website/) , ministrada pelo professor [Nivan Ferreira](http://www.cin.ufpe.br/~nivan/)
+
 ## Getting Started
 O projeto usa tecnologias web, para contribuir não é necessários instalar softwares adicionais.
 
@@ -18,4 +21,4 @@ O projeto usa tecnologias web, para contribuir não é necessários instalar sof
 * **Mariama Oliveira** - *[https://github.com/dmesquita](https://github.com/dmesquita)*
 
 ## Agradecimentos
-À comunidade do Software Livre por disponobilizarem o código das visualizaçes utilizadas
+À comunidade do Software Livre por disponibilizarem o código das visualizaçes utilizadas
