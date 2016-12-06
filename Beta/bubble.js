@@ -62,16 +62,6 @@ var nodes = []
 		if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
 	}
 
-	var tooltip = d3.select("body")
-	.append("div")
-	.style("position", "absolute")
-	.style("z-index", "10")
-	.style("visibility", "hidden")
-	.style("background", "#000")
-	.style("color", "white")
-	.style("font-size", "12px")
-	.html("name");
-
 	// Use the pack layout to initialize node positions.
 	d3.layout.pack()
 	.sort(null)
@@ -108,9 +98,13 @@ var nodes = []
 			// .style("stroke-width", 0.1)
 			.style("fill", function(d) { return color[d.cluster]; })
 			.call(force.drag)
-			.on("mouseover", function(d){tooltip.html(formatText(d)); return tooltip.style("visibility", "visible");})
-			.on("mousemove", function(){return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
-			.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+			.attr("data-position", "top")
+          .attr("data-delay", "50")
+          .attr("data-html", "true")
+          .attr("data-tooltip", function(d) {
+              return formatText(d)
+          })
+          .attr("class", "tooltipped");
 
 			function formatText(data){
 
