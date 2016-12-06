@@ -15,6 +15,8 @@
 	<script src="https://d3js.org/d3.v3.min.js"></script>
 	<!-- Crossfilter -->
 	<script type="text/javascript" src="https://rawgithub.com/NickQiZhu/dc.js/master/web/js/crossfilter.js"></script>
+	<!-- dc.js -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.js"></script>
 	<!-- Local Imports -->
 	<script src="index.js"></script>
 	<script src="bubble.js"></script>
@@ -94,6 +96,10 @@
 				</div>
 			</div>
 			<!-- END OF PROFESSOR RELATIONS -->
+
+
+
+
 			<div class="col s12 m12 l6 nopadding nomargin">
 				<!-- ACADEMIC WORK -->
 				<div class="col s12 m12 l12">
@@ -146,8 +152,10 @@
 					<!-- END ACADEMIC CONNECTION-->
 				</div>
 			</div>
+
 		</div>
 	</div>
+
 	<script type="text/javascript">
 	var dataGlobal;
 	var dataTeachersGlobal;
@@ -207,7 +215,7 @@
 		clearYearFilter();
 		console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
 		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
-		draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
+		draw_connection_graph(dataGlobal,"JAELSON FREIRE BRELAZ DE CASTRO",true);
 		draw_relation_graph(dataGlobal,dataTeachersGlobal,false,true, function(name) {
 					console.log("callback called! " + name);
 					console.log("callback called! " + name);
@@ -216,7 +224,7 @@
 					byProfessorNameGlobal.filterAll();
 					byProfessorNameGlobal.filter(full_name);
 					console.log(byProfessorNameGlobal.top(Infinity))
-					draw_connection_graph(name,byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
+					draw_connection_graph(dataGlobal,full_name,true);
 					d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: "+name
 					console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
 					clearYearFilter();
@@ -228,7 +236,7 @@
 		byProfessorNameGlobal.filterAll();
 		byProfessorNameGlobal.filter("JAELSON FREIRE BRELAZ DE CASTRO")
 		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
-		draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
+		draw_connection_graph(dataGlobal,"JAELSON FREIRE BRELAZ DE CASTRO",true);
 		d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: todos"
 		clearYearFilter();
 		console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
@@ -244,7 +252,7 @@
 					console.log(getFullProfessorName(name_filtered))
 					byProfessorNameGlobal.filterAll();
 					byProfessorNameGlobal.filter(getFullProfessorName(name_filtered));
-					draw_connection_graph(name_filtered,byProfessorNameGlobal.top(Infinity)[0]['collaborators'],true);
+					draw_connection_graph(dataGlobal,name_filtered,true);
 					d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: "+name
 					console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
 					clearYearFilter();
@@ -309,11 +317,13 @@
 	}
 
 	d3.select("#allyears").on("change", function() {
-  var type = this.value;
-	if(this.checked){
-		clearYearFilter()
-	}
+	  var type = this.value;
+		if(this.checked){
+			clearYearFilter()
+		}
 	});
+
+
 	</script>
 </body>
 

@@ -3,6 +3,10 @@ d3.json("data.json", function(data) {
 
   var cf = crossfilter(data);
 
+  var researchLineDimension        = cf.dimension(function(d) {return d.researchLine;}),
+  worksByResearchLine = researchLineDimension.group().reduceCount();
+  console.log(researchLineDimension.top(4))
+  console.log(worksByResearchLine.size())
   // Create dimension by year
   var byYear = cf.dimension(function(p) {return p.year;});
 
