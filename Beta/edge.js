@@ -74,8 +74,10 @@ function draw_relation_graph(data,dataTeachers,alphabeticalOrder,update,callback
         console.log(d);
         console.log(d3.select(this))
 
-        d3.select(this).style("fill","#000");
-        d3.select(this).style("font-weight","700");
+        d3.selectAll(".selectedp").classed("selectedp", false);
+
+
+        d3.select(this).classed("selectedp", true);
 
         name_selected = d.name;
         callback(d.name);

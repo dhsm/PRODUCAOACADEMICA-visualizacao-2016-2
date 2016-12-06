@@ -41,3 +41,8 @@
 .link--target {
   stroke: #00695c;
 }
+
+.selectedp{
+  fill: #000;
+  font-weight: 900;
+}
