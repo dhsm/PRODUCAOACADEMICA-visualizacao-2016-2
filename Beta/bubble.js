@@ -98,7 +98,7 @@ var nodes = []
 			// .style("stroke-width", 0.1)
 			.style("fill", function(d) { return color[d.cluster]; })
 			.call(force.drag)
-			.attr("data-position", "top")
+			.attr("data-position", "left")
           .attr("data-delay", "50")
           .attr("data-html", "true")
           .attr("data-tooltip", function(d) {
@@ -108,7 +108,7 @@ var nodes = []
 
 			function formatText(data){
 
-				var text = "Name:" + data.name + "<br/>Authors: "
+				var text = "<strong><u>NOME:</u></strong>" + data.name + "<br/><strong><u>AUTORES:</u></strong> "
 
 				for (var i = 0; i<data.authors.length; i++) {
 					text+=data.authors[i].name + "<br/>"

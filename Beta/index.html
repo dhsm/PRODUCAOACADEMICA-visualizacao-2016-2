@@ -46,10 +46,10 @@
 						<div class="right-align">
 							<ul id="rel-captions" class="dropdown-content">
 								<li style="background: #000000"><a class="white-text" href="#!">Origem</a></li>
-								<li style="background: #B29009"><a class="black-text" href="#!">Destino</a></li>
+								<li style="background: #f57f17"><a class="black-text" href="#!">Destino</a></li>
 								<li style="background: #80cbc4"><a class="black-text" href="#!">Conexão</a></li>
-								<li style="background: #00695c"><a class="white-text" href="#!">Com áreas em comum</a></li>
-								<li style="background: #f57f17"><a class="black-text" href="#!">Sem áreas em comum</a></li>
+								<li style="background: #00695c"><a class="white-text" href="#!">Conexão entre Destino e Origem</a></li>
+								
 							</ul>
 							<a class="btn dropdown-button" href="#!" hover="true" data-activates="rel-captions">Legenda<i class="mdi-navigation-arrow-drop-down right"></i></a>
 						</div>
@@ -113,7 +113,7 @@
 							<ul id="col-captions" class="dropdown-content">
 								<li style="background: #000000"><a class="white-text" href="#!">Professor(a)</a></li>
 								<li style="background: #00695c"><a class="white-text" href="#!">Aluno(a)</a></li>
-								<li style="background: #80cbc4"><a class="white-text" href="#!">Destino</a></li>
+								<li style="background: #80cbc4"><a class="white-text" href="#!">Orientando(a)</a></li>
 								<li style="background: #f57f17"><a class="black-text" href="#!">Colaborador Externo</a></li>
 								<li style="background: #4d4d4d"><a class="white-text" href="#!">Conexão</a></li>
 
@@ -170,6 +170,9 @@
 					byResearchLineGlobal = cfCollaborationsGlobal.dimension(function(p) {return p.researchLine;});
 
 					draw_bubble_graph(byIDsGlobal.top(Infinity),-1,false);
+					$('.tooltipped').tooltip({
+			    	delay: 50
+			    });
 					AgruparPorNome();
 
 				});
@@ -203,6 +206,13 @@
 					console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
 					clearYearFilter();
 		});
+
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
+
+
+		return false;
 	};
 
 	function AgruparPorArea(){
@@ -231,6 +241,12 @@
 					console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
 					clearYearFilter();
 		});
+
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
+
+		return false;
 	};
 
 	function filterWorksByProfessor(professor_name){
@@ -255,8 +271,11 @@
 		byIDsGlobal.filter(function(d){
 			 return f.indexOf(d) > -1;
 		 });
-		 console.log(byIDsGlobal.top(Infinity));
-		 draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
+		console.log(byIDsGlobal.top(Infinity));
+		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
 	};
 
 	function getFullProfessorName(name){
@@ -282,11 +301,17 @@
 		console.log(newYear)
 		d3.select("#allyears").property('checked', false);
 		draw_bubble_graph(byIDsGlobal.top(Infinity),newYear,true);
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
 	}
 
 	function clearYearFilter(){
 		d3.select("#slider").property("value", "2013");
 		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
 		d3.select("#allyears").property('checked', true);
 	}
 
@@ -297,6 +322,9 @@
 		}
 	});
 
+	$('.tooltipped').tooltip({
+		delay: 50
+	});
 
 	</script>
 </body>
