@@ -224,6 +224,11 @@ function draw_connection_graph(data,input_name,update) {
 
       container = svg.append("g").call(zoom);
 
+      linecolor = d3.scale.linear()
+      .domain([0,30])
+      .interpolate(d3.interpolateRgb)
+      .range(["grey", "black"])
+
       var link = container.append("g")
           .attr("class", "links")
           .selectAll("line")
@@ -232,7 +237,9 @@ function draw_connection_graph(data,input_name,update) {
           .attr("stroke-width", function(d) {
               return Math.sqrt(d.value/2);
           })
-          .attr("stroke", "grey");
+          .attr("stroke", function(d) {
+              return linecolor(d.value);
+          });
 
       var node = container.append("g")
           .attr("class", "nodes")
