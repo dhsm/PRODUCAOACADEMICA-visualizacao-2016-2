@@ -1,5 +1,5 @@
 .node {
-  font: 300 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 300 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
   fill: #bbb;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .node--target {
-  fill: #B29009;
+  fill: #f57f17;
 }
 
 .link--source,
@@ -35,9 +35,14 @@
 }
 
 .link--source {
-  stroke: #f57f17;
+  stroke: #00695c;
 }
 
 .link--target {
   stroke: #00695c;
+}
+
+.selectedp{
+  fill: #000;
+  font-weight: 900;
 }

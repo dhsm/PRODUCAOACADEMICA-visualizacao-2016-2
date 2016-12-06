@@ -13,6 +13,10 @@
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
 	<!-- D3 V3 -->
 	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<!-- Crossfilter -->
+	<script type="text/javascript" src="https://rawgithub.com/NickQiZhu/dc.js/master/web/js/crossfilter.js"></script>
+	<!-- dc.js -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.js"></script>
 	<!-- Local Imports -->
 	<script src="index.js"></script>
 	<script src="bubble.js"></script>
@@ -22,10 +26,10 @@
 	<link rel="stylesheet" type="text/css" href="edge.css">
 </head>
 
-<body class="teal darken-3">
+<body class="teal darken-2">
 	<div id="main" class="row">
 		<!-- TITLE -->
-		<div class="z-depth-5 col s12 teal darken-4 title">
+		<div class="z-depth-5 col s12 teal darken-4 title" style="height: 10vh;">
 			<h3 class="center-align white-text">Mundo CIn</h3>
 		</div>
 		<!-- END TITLE -->
@@ -35,55 +39,28 @@
 				<div class="card darken-1">
 					<div class="card-content">
 						<span class="card-title">Relacionamento Professor x Professor</span>
-						<div class="input-field col sm6 left-align" style="vertical-align: text-top; float: right;">
-							<select multiple>
-								<option value="" disabled selected>Escolha um filtro</option>
-								<option for="filter1" data-position="bottom" data-delay="50" data-tooltip="Engenharia de Software" class="tooltipped" value="1">ES</option>
-								<option for="filter2" data-position="bottom" data-delay="50" data-tooltip="Inteligencia Artificial Simbólica" class="tooltipped" value="2">AS</option>
-								<option for="filter3" data-position="bottom" data-delay="50" data-tooltip="Redes de Computadores" class="tooltipped" value="3">RC</option>
-								<option for="filter4" data-position="bottom" data-delay="50" data-tooltip="Sistemas Distribuídos" class="tooltipped" value="4">SiD</option>
-								<option for="filter5" data-position="bottom" data-delay="50" data-tooltip="Mídia e Intetação" class="tooltipped" value="5">MI</option>
-								<option for="filter6" data-position="bottom" data-delay="50" data-tooltip="Não Informado" class="tooltipped" value="6">NI</option>
-								<option for="filter7" data-position="bottom" data-delay="50" data-tooltip="Banco de Dados" class="tooltipped" value="7">BD</option>
-								<option for="filter8" data-position="bottom" data-delay="50" data-tooltip="Redes Neurais" class="tooltipped" value="8">RN</option>
-								<option for="filter9" data-position="bottom" data-delay="50" data-tooltip="Processamento de Imagem" class="tooltipped" value="9">PI</option>
-								<option for="filter10" data-position="bottom" data-delay="50" data-tooltip="Lógica e Sistemas Dedutivos" class="tooltipped" value="10">LSD</option>
-								<option for="filter11" data-position="bottom" data-delay="50" data-tooltip="Análise de Dados Simbólica e/ou Númericos e Metódos Afins" class="tooltipped" value="11">ADSNMA</option>
-								<option for="filter12" data-position="bottom" data-delay="50" data-tooltip="Algoritmos e Complexidade" class="tooltipped" value="12">AlC</option>
-								<option for="filter13" data-position="bottom" data-delay="50" data-tooltip="Arquitetura de Computadores" class="tooltipped" value="13">ArC</option>
-								<option for="filter14" data-position="bottom" data-delay="50" data-tooltip="Matemática Computacional" class="tooltipped" value="14">MC</option>
-								<option for="filter15" data-position="bottom" data-delay="50" data-tooltip="Engenharia da Computação" class="tooltipped" value="15">EC</option>
-								<option for="filter16" data-position="bottom" data-delay="50" data-tooltip="Processamento de Linguagem Natural" class="tooltipped" value="16">PLN</option>
-								<option for="filter17" data-position="bottom" data-delay="50" data-tooltip="Gestão do Conhecimento Aplicada aos Sistemas de Informação" class="tooltipped" value="17">GCASI</option>
-								<option for="filter18" data-position="bottom" data-delay="50" data-tooltip="Linguagens de Programação" class="tooltipped" value="18">LP</option>
-								<option for="filter19" data-position="bottom" data-delay="50" data-tooltip="Sistemas Digitais" class="tooltipped" value="19">SDi</option>
-								<option for="filter20" data-position="bottom" data-delay="50" data-tooltip="Administração e Integração de Sistemas" class="tooltipped" value="20">AIS</option>
-							</select>
-							<label>Filtro de Area</label>
-						</div>
 						<div id="vis0" class="fill sm2 md3 lg3 center-align">
-							<svg></svg>
 						</div>
 					</div>
 					<div style="padding-top: 0;" class="card-action">
 						<div class="right-align">
 							<ul id="rel-captions" class="dropdown-content">
 								<li style="background: #000000"><a class="white-text" href="#!">Origem</a></li>
-								<li style="background: #B29009"><a class="black-text" href="#!">Destino</a></li>
+								<li style="background: #f57f17"><a class="black-text" href="#!">Destino</a></li>
 								<li style="background: #80cbc4"><a class="black-text" href="#!">Conexão</a></li>
-								<li style="background: #00695c"><a class="white-text" href="#!">Com áreas em comum</a></li>
-								<li style="background: #f57f17"><a class="black-text" href="#!">Sem áreas em comum</a></li>
+								<li style="background: #00695c"><a class="white-text" href="#!">Conexão entre Destino e Origem</a></li>
+
 							</ul>
 							<a class="btn dropdown-button" href="#!" hover="true" data-activates="rel-captions">Legenda<i class="mdi-navigation-arrow-drop-down right"></i></a>
 						</div>
 						<div>
 							<div class="left-align">AGRUPAR:</div>
-							<a href="">por Nome</a>
-							<a href="">por Área de Pesquisa</a>
+							<a href="#" onclick="AgruparPorNome();">por Nome</a>
+							<a href="#" onclick="AgruparPorArea();">por Área de Pesquisa</a>
 						</div>
 						<div class="left-align" style="padding-top: 20px">ANO:</div>
 						<p class="range-field">
-							<input type="range" id="slider" min="2013" max="2016" value="2013"/>
+							<input type="range" id="slider" min="2013" max="2016" value="2013" step="1" onchange="filterByYear(this.value)"/>
 						</p>
 						<p class="right-align">
 							<input type="checkbox" class="filled-in" id="allyears" checked="checked" />
@@ -93,6 +70,10 @@
 				</div>
 			</div>
 			<!-- END OF PROFESSOR RELATIONS -->
+
+
+
+
 			<div class="col s12 m12 l6 nopadding nomargin">
 				<!-- ACADEMIC WORK -->
 				<div class="col s12 m12 l12">
@@ -100,7 +81,6 @@
 						<div class="card-content" style="padding-bottom: 0;">
 							<span class="card-title">Trabalhos Acadêmicos</span>
 							<div id="vis1" class="fill sm2">
-								<svg></svg>
 							</div>
 						</div>
 						<div style="padding-top: 0;" class="card-action">
@@ -113,9 +93,8 @@
 								<a class="btn dropdown-button" href="#!" hover="true" data-activates="ta-captions">Legenda<i class="mdi-navigation-arrow-drop-down right"></i></a>
 							</div>
 							<div>
-								<div class="left-align">AGRUPAR:</div>
-								<a href="">por Nome</a>
-								<a href="">por Área de Pesquisa</a>
+								<div class="left-align" id="trabalhos_sendo_mostrados">MOSTRANDO: todos</div>
+								<a href="#" onclick="AgruparPorNome();">LIMPAR FILTROS</a>
 							</div>
 						</div>
 					</div>
@@ -127,9 +106,6 @@
 							<div class="card-content" style="height: 100%">
 								<span class="card-title">Conexões Acadêmicas</span>
 								<div id="vis2" class="nomargin" style="height: 85%">
-									<svg>
-
-									</svg>
 								</div>
 							</div>
 							<div style="padding-top: 0;" class="card-action">
@@ -137,11 +113,12 @@
 							<ul id="col-captions" class="dropdown-content">
 								<li style="background: #000000"><a class="white-text" href="#!">Professor(a)</a></li>
 								<li style="background: #00695c"><a class="white-text" href="#!">Aluno(a)</a></li>
-								<li style="background: #80cbc4"><a class="white-text" href="#!">Destino</a></li>
+								<li style="background: #80cbc4"><a class="white-text" href="#!">Orientando(a)</a></li>
 								<li style="background: #f57f17"><a class="black-text" href="#!">Colaborador Externo</a></li>
 								<li style="background: #4d4d4d"><a class="white-text" href="#!">Conexão</a></li>
-								
-								
+								<li style="background: #000000"><a class="white-text" href="#!">Conexão forte</a></li>
+
+
 							</ul>
 							<a class="btn dropdown-button" href="#!" hover="true" data-activates="col-captions">Legenda<i class="mdi-navigation-arrow-drop-down right"></i></a>
 						</div>
@@ -150,19 +127,215 @@
 					<!-- END ACADEMIC CONNECTION-->
 				</div>
 			</div>
+
 		</div>
 	</div>
+
 	<script type="text/javascript">
-		$(document).ready(function() {
-			draw_relation_graph();
-			draw_connection_graph();
-			$(document).ready(function() {
-				$('select').material_select();
-			});
-			$('.tooltipped').tooltip({
-				delay: 50
+	var dataGlobal;
+	var dataTeachersGlobal;
+	var data_professorsGlobal;
+	var data_collaboratiosGlobal;
+	var cfGlobal;
+	var byIDsGlobal;
+	var cfCollaborationsGlobal;
+	var byProfessorNameGlobal;
+	var byYearGlobal;
+	var nameGlobal;
+
+	function loadData() {
+
+		d3.json("data_with_index.json", function(data) {
+			d3.json("work_and_collaboration_by_professor.json", function(data_professors) {
+				d3.csv("teachers.csv", function(dataTeachers) {
+					d3.json("new_professors_and_collaborations.json", function(data_collaboratios) {
+					console.log(data_collaboratios)
+				  // Create dimension by Works
+				  //var byIDs = cf.dimension(function(p) {return p.index;});
+				  //var byProfessorName = cfCollaborations.dimension(function(p) {return p.name;});
+					//byProfessorName.filter("JAELSON FREIRE BRELAZ DE CASTRO");
+					//byProfessorName.filter("EDSON COSTA DE BARROS CARVALHO FILHO");
+					//console.log(byProfessorName.top(Infinity)[0]['collaborators'])
+					//draw_connection_graph("JAELSON FREIRE BRELAZ DE CASTRO",byProfessorName.top(Infinity)[0]['collaborators'],false);
+					//draw_connection_graph("EDSON COSTA DE BARROS CARVALHO FILHO",byProfessorName.top(Infinity)[0]['collaborators']);
+
+					dataGlobal = data;
+					dataTeachersGlobal = dataTeachers;
+					data_professorsGlobal = data_professors;
+					data_collaboratiosGlobal = data_collaboratios;
+					cfGlobal = crossfilter(dataGlobal);
+					cfCollaborationsGlobal = crossfilter(dataGlobal)
+					byIDsGlobal = cfGlobal.dimension(function(p) {return p.index;});
+					byProfessorNameGlobal = cfCollaborationsGlobal.dimension(function(p) {return p.name;});
+					byYearGlobal = cfCollaborationsGlobal.dimension(function(p) {return p.year;});
+
+					draw_bubble_graph(byIDsGlobal.top(Infinity),-1,false);
+					$('.tooltipped').tooltip({
+			    	delay: 50
+			    });
+					AgruparPorNome();
+
+				});
+				});
 			});
 		});
+
+
+	}
+	$(document).ready(loadData);
+
+	function AgruparPorNome(){
+		byIDsGlobal.filterAll();
+		byProfessorNameGlobal.filterAll();
+		byProfessorNameGlobal.filter("JAELSON FREIRE BRELAZ DE CASTRO");
+		nameGlobal = "JAELSON FREIRE BRELAZ DE CASTRO";
+		d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: todos"
+		clearYearFilter();
+		console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
+		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
+		draw_connection_graph(dataGlobal,"JAELSON FREIRE BRELAZ DE CASTRO",true);
+		draw_relation_graph(dataGlobal,dataTeachersGlobal,false,true, function(name) {
+					console.log("callback called! " + name);
+					console.log("callback called! " + name);
+					filterWorksByProfessor(name.toUpperCase());
+					var full_name = getFullProfessorName(name)
+					byProfessorNameGlobal.filterAll();
+					byProfessorNameGlobal.filter(full_name);
+					console.log(byProfessorNameGlobal.top(Infinity))
+					nameGlobal = full_name;
+					draw_connection_graph(dataGlobal,full_name,true);
+					d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: "+name
+					console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
+					clearYearFilter();
+		});
+
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
+
+
+		return false;
+	};
+
+	function AgruparPorArea(){
+		byIDsGlobal.filterAll();
+		byProfessorNameGlobal.filterAll();
+		byProfessorNameGlobal.filter("JAELSON FREIRE BRELAZ DE CASTRO")
+		nameGlobal = "JAELSON FREIRE BRELAZ DE CASTRO";
+		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
+		draw_connection_graph(dataGlobal,"JAELSON FREIRE BRELAZ DE CASTRO",true);
+		d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: todos"
+		clearYearFilter();
+		console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
+		draw_relation_graph(dataGlobal,dataTeachersGlobal,true,true, function(name) {
+					console.log("callback called! " + name);
+					console.log("callback called! " + name);
+					filterWorksByProfessor(name.toUpperCase());
+					byProfessorNameGlobal.filterAll();
+					console.log("NOME DENTRO DO GRAPH")
+					console.log(name)
+					console.log("NAME FULL")
+					var name_filtered = filterNameWithResearchArea(name)
+					console.log(getFullProfessorName(name_filtered))
+					byProfessorNameGlobal.filterAll();
+					byProfessorNameGlobal.filter(getFullProfessorName(name_filtered));
+					nameGlobal = getFullProfessorName(name_filtered);
+					draw_connection_graph(dataGlobal,getFullProfessorName(name_filtered),true);
+					d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML = "MOSTRANDO: "+name
+					console.log(d3.select("#trabalhos_sendo_mostrados")[0][0].innerHTML)
+					clearYearFilter();
+		});
+
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
+
+		return false;
+	};
+
+	function filterWorksByProfessor(professor_name){
+		var professor_name_filtered = professor_name;
+		if (professor_name_filtered.indexOf('.') > -1){
+			professor_name_filtered = professor_name.substring(professor_name.indexOf(".")+1,professor_name.length)
+		}
+		var res = professor_name_filtered.split(" ")
+		var professor_name_short = res[0]+ " " + res[res.length-1];
+		//Filters
+		byIDsGlobal.filterAll();
+		var professor = data_professorsGlobal.find(function(element, index, array) {
+			var res = element.name.split(" ")
+			var element_name_short = res[0]+ " " + res[res.length-1];
+			return professor_name_short === element_name_short;
+		});
+		console.log("PROFESSOR ",professor);
+		// Array of things you want to filter
+		var f = professor.works;
+		console.log(professor.works)
+		byIDsGlobal.filterAll();
+		byIDsGlobal.filter(function(d){
+			 return f.indexOf(d) > -1;
+		 });
+		console.log(byIDsGlobal.top(Infinity));
+		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
+	};
+
+	function getFullProfessorName(name){
+		name = name.toUpperCase()
+		var professor = data_professorsGlobal.find(function(element, index, array) {
+			var res = element.name.split(" ")
+			var element_name_short = res[0]+ " " + res[res.length-1];
+			return name === element_name_short;
+		});
+		return professor['name']
+	}
+
+	function filterNameWithResearchArea(name_with_research){
+		var professor_name_filtered = name_with_research.toUpperCase();
+		if (professor_name_filtered.indexOf('.') > -1){
+			professor_name_filtered = name_with_research.substring(name_with_research.indexOf(".")+1,name_with_research.length)
+		}
+		return professor_name_filtered
+	}
+
+	function filterByYear(newYear){
+		byYearGlobal.filterAll();
+		console.log("newYear")
+		console.log(newYear)
+		d3.select("#allyears").property('checked', false);
+		draw_bubble_graph(byIDsGlobal.top(Infinity),newYear,true);
+		byYearGlobal.filter(newYear);
+		console.log(byYearGlobal.top(Infinity));
+		//draw_connection_graph(byYearGlobal.top(Infinity),nameGlobal,true);
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
+	}
+
+	function clearYearFilter(){
+		d3.select("#slider").property("value", "2013");
+		draw_bubble_graph(byIDsGlobal.top(Infinity),-1,true);
+		$('.tooltipped').tooltip({
+    	delay: 50
+    });
+		d3.select("#allyears").property('checked', true);
+		//byYearGlobal.filterAll();
+		//draw_connection_graph(byYearGlobal.top(Infinity),nameGlobal,true);
+	}
+
+	d3.select("#allyears").on("change", function() {
+	  var type = this.value;
+		if(this.checked){
+			clearYearFilter()
+		}
+	});
+
+	$('.tooltipped').tooltip({
+		delay: 50
+	});
+
 	</script>
 </body>
 
